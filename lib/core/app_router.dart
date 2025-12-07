@@ -1,3 +1,4 @@
+// lib/core/app_router.dart
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -5,7 +6,7 @@ import '../features/auth/login_page.dart';
 import '../features/auth/signup_page.dart';
 import '../features/home/home_page.dart';
 
-// Petite implémentation de base : Splash redirige vers login/home (ici always login)
+// Router principal
 final router = GoRouter(
   initialLocation: AppRoutes.splash,
   routes: [
@@ -28,15 +29,29 @@ final router = GoRouter(
   ],
 );
 
-class SplashScreen extends StatelessWidget {
+/// SplashScreen sécurisé : utiliser initState + vérification `mounted`
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Simple splash qui redirige vers login après 1s
-    Future.microtask(() => Future.delayed(const Duration(seconds: 1), () {
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Délai court puis redirection. Toujours vérifier mounted avant d'utiliser context.
+    Future.delayed(const Duration(seconds: 1)).then((_) {
+      if (!mounted) return; // protège contre l'erreur "deactivated widget"
+      // Ici on redirige vers la page de connexion. Plus tard tu peux
+      // remplacer la logique par une vérification d'auth (token) et aller vers /home.
       context.go(AppRoutes.login);
-    }));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(child: CircularProgressIndicator()),
     );
