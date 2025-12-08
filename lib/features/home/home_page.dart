@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import '../../core/constants.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/constants.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Accueil'),
+      ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
               onPressed: () => context.go(AppRoutes.startQuiz),
-              child: const Text('Start Quiz (vide pour l\'instant)'),
+              child: const Text('Démarrer un Quiz'),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => context.go(AppRoutes.createQuiz),
-              child: const Text('Create Quiz (vide pour l\'instant)'),
+              child: const Text('Créer un Quiz'),
             ),
           ],
         ),

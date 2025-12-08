@@ -5,8 +5,8 @@ import 'constants.dart';
 import '../features/auth/login_page.dart';
 import '../features/auth/signup_page.dart';
 import '../features/home/home_page.dart';
+import '../features/navigation/main_navigation.dart'; // <-- Assure-toi que ce fichier existe
 
-// Router principal
 final router = GoRouter(
   initialLocation: AppRoutes.splash,
   routes: [
@@ -22,6 +22,12 @@ final router = GoRouter(
       path: AppRoutes.signup,
       builder: (context, state) => const SignupPage(),
     ),
+    // Route principale qui contient la BottomNavigationBar
+    GoRoute(
+      path: AppRoutes.main,
+      builder: (context, state) => const MainNavigationPage(),
+    ),
+    // Optionnel : garder home route si tu as besoin d'un accès direct
     GoRoute(
       path: AppRoutes.home,
       builder: (context, state) => const HomePage(),
@@ -42,10 +48,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Délai court puis redirection. Toujours vérifier mounted avant d'utiliser context.
-    Future.delayed(const Duration(seconds: 1)).then((_) {
-      if (!mounted) return; // protège contre l'erreur "deactivated widget"
-      // Ici on redirige vers la page de connexion. Plus tard tu peux
-      // remplacer la logique par une vérification d'auth (token) et aller vers /home.
+    Future.delayed(const Duration(milliseconds: 800)).then((_) {
+      if (!mounted) return;
+      // Par défaut on envoie vers la page de login.
+      // Plus tard tu pourras vérifier l'état d'auth et aller vers AppRoutes.main si connecté.
       context.go(AppRoutes.login);
     });
   }

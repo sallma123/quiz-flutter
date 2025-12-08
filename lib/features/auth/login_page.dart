@@ -29,9 +29,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     await notifier.login(email: _emailCtrl.text.trim(), password: _pwdCtrl.text);
     final state = ref.read(authControllerProvider);
     if (state.status == AuthStatus.authenticated) {
-      // rediriger vers home
       if (!mounted) return;
-      context.go(AppRoutes.home);
+      debugPrint('DEBUG: navigated to ${GoRouter.of(context).location} (before go)'); // optionnel
+      context.go(AppRoutes.main); // <-- IMPORTANT : va vers la page avec BottomNav
+      debugPrint('DEBUG: navigated to ${GoRouter.of(context).location} (after go)');
     } else if (state.status == AuthStatus.error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage ?? 'Erreur')));
