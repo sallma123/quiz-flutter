@@ -6,22 +6,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'models/user.dart';
 import 'models/user_adapter.dart';
+import 'core/hive_init.dart'; // ⬅️ AJOUT IMPORTANT
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialisation de Hive (base de données locale)
-  await Hive.initFlutter();
+  // 🔥 1) Initialiser Hive + Questions (notre nouvelle fonction)
+  await initHiveAndSeed();
 
-  Hive.registerAdapter(UserAdapter()); // enregistré ici
-  await Hive.openBox<User>('users');   // box pour stocker les users
-  final box = Hive.box<User>('users');
-  print('DEBUG: Hive box users opened. count=${box.length}');
-  for (final u in box.values) {
-    print('DEBUG: user id=${u.id}, name=${u.name}, email=${u.email}, pwdHash=${u.passwordHash}');
-  }
+  // 🔥 2) Initialisation Hive existante (Users)
+  Hive.registerAdapter(UserAdapter());
+  await Hive.openBox<User>('users');
 
-  // Lancement de l'app avec Riverpod (state management)
+  print("DEBUG: users loaded: ${Hive.box<User>('users').length}");
+
+  // Lancement de l'app avec Riverpod
   runApp(const ProviderScope(child: QuizApp()));
 }
 
@@ -32,8 +31,8 @@ class QuizApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       title: 'Quiz App',
-      theme: appTheme,           // <- notre thème personnalisé
-      routerConfig: router,      // <- navigation GoRouter
+      theme: appTheme,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }

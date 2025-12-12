@@ -8,5 +8,6 @@ class AppRoutes {
   static const String createQuiz = '/home/create-quiz';
   static const String profile = '/home/profile';
   static const String history = '/home/history';
+  static const String quiz = '/quiz';
 
 }
