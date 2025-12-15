@@ -10,6 +10,8 @@ import '../features/auth/login_page.dart';
 import '../features/auth/signup_page.dart';
 import '../features/home/home_page.dart';
 import '../features/navigation/main_navigation.dart';
+import '../features/home/result_page.dart';
+
 
 final router = GoRouter(
   initialLocation: AppRoutes.splash,
@@ -37,6 +39,20 @@ final router = GoRouter(
       path: AppRoutes.home,
       builder: (context, state) => const HomePage(),
     ),
+    GoRoute(
+      path: '/result',
+      builder: (context, state) {
+        final extra = state.extra as Map;
+
+        return ResultPage(
+          score: extra['score'],
+          total: extra['total'],
+          questions: extra['questions'],
+          selections: extra['selections'],
+        );
+      },
+    ),
+
 
     // Route /quiz : on parse state.location pour être compatible toutes versions
    GoRoute(

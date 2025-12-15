@@ -262,32 +262,17 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                         startTimer();
                       }
                       else {
-                        // On est à la dernière question → calcul du score & popup résultat
                         ctrl.submitQuiz();
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => AlertDialog(
-                            title: const Text("Quiz terminé"),
-                            content: Text(
-                              "Votre score : ${quizState.score} / ${quizState.questions.length * 10}",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("Fermer"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  ctrl.restart();
-                                  Navigator.of(context).pop();
-                                  startTimer();
-                                },
-                                child: const Text("Rejouer"),
-                              )
-                            ],
-                          ),
+                        context.go(
+                          '/result',
+                          extra: {
+                            'score': quizState.score,
+                            'total': quizState.questions.length,
+                            'questions': quizState.questions,
+                            'selections': quizState.selections,
+                          },
                         );
+
                       }
                     },
 
