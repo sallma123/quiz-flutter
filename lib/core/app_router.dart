@@ -11,7 +11,7 @@ import '../features/auth/signup_page.dart';
 import '../features/home/home_page.dart';
 import '../features/navigation/main_navigation.dart';
 import '../features/home/result_page.dart';
-
+import '../features/home/answers_page.dart';
 
 final router = GoRouter(
   initialLocation: AppRoutes.splash,
@@ -47,6 +47,17 @@ final router = GoRouter(
         return ResultPage(
           score: extra['score'],
           total: extra['total'],
+          questions: extra['questions'],
+          selections: extra['selections'],
+        );
+      },
+    ),
+    GoRoute(
+      path: '/answers',
+      builder: (context, state) {
+        final extra = state.extra as Map;
+
+        return AnswersPage(
           questions: extra['questions'],
           selections: extra['selections'],
         );

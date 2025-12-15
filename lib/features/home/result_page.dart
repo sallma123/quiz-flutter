@@ -215,13 +215,20 @@ class ResultPage extends StatelessWidget {
 
                   TextButton(
                     onPressed: () {
-                      // future: page voir les réponses
+                      context.push(
+                        '/answers',
+                        extra: {
+                          'questions': questions,
+                          'selections': selections,
+                        },
+                      );
                     },
                     child: const Text(
                       "Voir vos réponses",
                       style: TextStyle(color: Colors.purple),
                     ),
                   ),
+
                 ],
               ),
             ),
