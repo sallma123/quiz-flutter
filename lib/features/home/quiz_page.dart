@@ -2,27 +2,63 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/question.dart';
-import '../../providers/question_provider.dart'; // provider qui charge 5 questions aléatoires
+import 'package:go_router/go_router.dart';
+import '../../core/constants.dart';
+import '../../providers/question_provider.dart';
 import '../../providers/quiz_providers.dart';
 
 class QuizPage extends ConsumerStatefulWidget {
   final String categoryId;
   final String title;
-  const QuizPage({super.key, required this.categoryId, required this.title});
+
+  const QuizPage({
+    super.key,
+    required this.categoryId,
+    required this.title,
+  });
 
   @override
   ConsumerState<QuizPage> createState() => _QuizPageState();
 }
 
 class _QuizPageState extends ConsumerState<QuizPage> {
+  int timer = 15;
+  Timer? countdown;
+
+  void startTimer() {
+    countdown?.cancel();
+    timer = 15;
+
+    countdown = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (timer == 0) {
+        t.cancel();
+        // Passe à la question suivante automatiquement
+        final ctrl = ref.read(quizControllerProvider.notifier);
+        if (!ctrl.isFinished()) {
+          ctrl.nextQuestion();
+          startTimer();
+        }
+      } else {
+        setState(() => timer--);
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    // Charger les 5 questions depuis Hive (ou provider)
+
+    // Charger les 5 questions et démarrer timer
     ref.read(randomQuestionsProvider(widget.categoryId).future).then((list) {
       ref.read(quizControllerProvider.notifier).setQuestions(list);
+      startTimer();
     });
+  }
+
+  @override
+  void dispose() {
+    countdown?.cancel();
+    super.dispose();
   }
 
   @override
@@ -30,10 +66,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final quizState = ref.watch(quizControllerProvider);
     final ctrl = ref.read(quizControllerProvider.notifier);
 
-    // Si aucune question chargée
     if (quizState.questions.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -41,91 +75,170 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final q = quizState.questions[quizState.currentIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: const Color(0xFFF5F0FF),
+      body: SafeArea(
         child: Column(
           children: [
-            // Entête: progression + numéro question
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Question ${quizState.currentIndex + 1} / ${quizState.questions.length}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                if (!quizState.submitted)
-                  Text('Réponses remplies: ${quizState.selections.where((s) => s != null).length} / ${quizState.questions.length}'),
-                if (quizState.submitted)
-                  Text('Score : ${quizState.score} / ${quizState.questions.length * 10}', style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const SizedBox(height: 12),
+            // =====================
+            // HEADER VIOLET
+            // =====================
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: const BoxDecoration(
+                color: Color(0xFF9C77FF),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(35),
+                  bottomRight: Radius.circular(35),
+                ),
+              ),
+              child: Column(
+                children: [
+                  // Timer circulaire
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 4),
+                    ),
+                    child: Center(
+                      child: Text(
+                        timer.toString(),
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
 
-            // Carte question
-            Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(q.text, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 15),
+
+                  // INDICATEURS 1 2 3 4 5
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(quizState.questions.length, (i) {
+                      final isActive = i == quizState.currentIndex;
+
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: isActive ? Colors.white : Colors.white54,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${i + 1}",
+                            style: TextStyle(
+                              color: isActive
+                                  ? const Color(0xFF9C77FF)
+                                  : Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
-            // Options (A/B/C/D)
+            // =====================
+            // CARTE QUESTION
+            // =====================
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  )
+                ],
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    q.text,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            // =====================
+            // OPTIONS A B C D
+            // =====================
             Expanded(
               child: ListView.builder(
                 itemCount: q.options.length,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemBuilder: (context, i) {
-                  final opt = q.options[i];
-                  final sel = quizState.selections[quizState.currentIndex];
-                  final bool isSelected = sel != null && sel == i;
-                  final bool submitted = quizState.submitted;
-                  final bool isCorrect = i == q.correctIndex;
-
-                  Color bgColor;
-                  Color textColor = Colors.black;
-
-                  if (submitted) {
-                    // après submit, on montre les bonnes / mauvaises réponses
-                    if (isCorrect) {
-                      bgColor = Colors.green.shade100;
-                      textColor = Colors.green.shade900;
-                    } else if (isSelected && !isCorrect) {
-                      bgColor = Colors.red.shade100;
-                      textColor = Colors.red.shade900;
-                    } else {
-                      bgColor = Colors.white;
-                    }
-                  } else {
-                    // avant submit : mettre en évidence la sélection
-                    bgColor = isSelected ? Colors.purple.shade100 : Colors.white;
-                  }
+                  final selected = quizState.selections[quizState.currentIndex];
+                  final isSelected = selected == i;
 
                   return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    margin: const EdgeInsets.only(bottom: 12),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: bgColor,
-                        foregroundColor: textColor,
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         elevation: 0,
+                        backgroundColor: isSelected
+                            ? const Color(0xFF9C77FF)
+                            : const Color(0xFFD6C9FF),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                      onPressed: submitted
-                          ? null // verrouillé après submit
-                          : () {
-                        ctrl.selectOption(i); // stocke la réponse, ne passe pas à la question suivante
+                      onPressed: () {
+                        ctrl.selectOption(i);
                       },
                       child: Row(
                         children: [
+                          // Lettre A, B, C, D
                           Container(
-                            width: 36,
                             height: 36,
-                            decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                            child: Center(child: Text(String.fromCharCode(65 + i), style: const TextStyle(fontWeight: FontWeight.bold))),
+                            width: 36,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                String.fromCharCode(65 + i),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF9C77FF),
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(width: 12),
-                          Expanded(child: Text(opt)),
+                          Expanded(
+                            child: Text(
+                              q.options[i],
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -134,68 +247,84 @@ class _QuizPageState extends ConsumerState<QuizPage> {
               ),
             ),
 
-            // Navigation entre questions (précédent / suivant)
-            Row(
+// =====================
+// BOUTON SUIVANT / TERMINER + QUITTER
+// =====================
+            Column(
               children: [
-                OutlinedButton(
-                  onPressed: quizState.currentIndex > 0 && !quizState.submitted ? ctrl.previousQuestion : null,
-                  child: const Text('Précédent'),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Si pas toutes les réponses → on passe à la question suivante
+                      if (!ctrl.isFinished()) {
+                        ctrl.nextQuestion();
+                        startTimer();
+                      }
+                      else {
+                        // On est à la dernière question → calcul du score & popup résultat
+                        ctrl.submitQuiz();
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (_) => AlertDialog(
+                            title: const Text("Quiz terminé"),
+                            content: Text(
+                              "Votre score : ${quizState.score} / ${quizState.questions.length * 10}",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Fermer"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  ctrl.restart();
+                                  Navigator.of(context).pop();
+                                  startTimer();
+                                },
+                                child: const Text("Rejouer"),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9C77FF),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+
+                    // Texte dynamique : "Suivant" ou "Terminer"
+                    child: Text(
+                      ctrl.isFinished() ? "Terminer le quiz" : "Suivant",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
                 ),
-                const Spacer(),
-                OutlinedButton(
-                  onPressed: quizState.currentIndex < quizState.questions.length - 1 && !quizState.submitted ? ctrl.nextQuestion : null,
-                  child: const Text('Suivant'),
+
+// Bouton quitter -> retour HomePage
+                TextButton(
+                  onPressed: () {
+                    countdown?.cancel();  // stop timer proprement
+                    context.go(AppRoutes.main);  // retour direct à la page d'accueil
+                  },
+                  child: const Text(
+                    "Quitter",
+                    style: TextStyle(color: Colors.purple, fontSize: 16),
+                  ),
                 ),
+
               ],
             ),
 
-            const SizedBox(height: 12),
 
-            // Bouton Submit Quiz (activé seulement si toutes les questions ont une réponse)
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: quizState.submitted
-                    ? () {
-                  // si déjà soumis, on propose de recommencer
-                  ctrl.restart();
-                }
-                    : (ctrl.allAnswered() ? () {
-                  // soumettre et afficher résultat
-                  ctrl.submitQuiz();
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => AlertDialog(
-                      title: const Text('Quiz terminé'),
-                      content: Text('Ton score : ${ref.read(quizControllerProvider).score} / ${quizState.questions.length * 10}'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // ferme le dialog
-                          },
-                          child: const Text('OK'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Rejouer
-                            ctrl.restart();
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Rejouer'),
-                        ),
-                      ],
-                    ),
-                  );
-                } : null),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(48),
-                ),
-                child: Text(quizState.submitted ? 'Recommencer' : 'Submit Quiz'),
-              ),
-            ),
-
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
           ],
         ),
       ),

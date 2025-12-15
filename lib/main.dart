@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'models/user.dart';
 import 'models/user_adapter.dart';
-import 'core/hive_init.dart'; // ⬅️ AJOUT IMPORTANT
+import 'core/hive_init.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

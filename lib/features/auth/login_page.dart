@@ -79,7 +79,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Center(child: Text("Si tu n'as pas de compte, crée-le :", style: TextStyle(color: Colors.grey[700]))),
                 TextButton(
                   onPressed: () => context.go(AppRoutes.signup),
-                  child: const Text('Créer un compte', style: TextStyle(color: Color(0xFF00C853), fontWeight: FontWeight.bold)),
+                  child: const Text('Créer un compte', style: TextStyle(color: Color(
+                      0xFF00A19C), fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -109,8 +110,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         labelText: label,
         hintText: hint,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00C853))),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00C853))),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(
+            0xFF00A19C))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(
+            0xFF00A19C))),
       ),
     );
   }

@@ -69,7 +69,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         height: 52,
                         child: ElevatedButton(
                           onPressed: authState.status == AuthStatus.loading ? null : _submit,
-                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF00C853)),
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF00A19C)),
                           child: authState.status == AuthStatus.loading ? const CircularProgressIndicator(color: Colors.white) : const Text('S\'inscrire'),
                         ),
                       ),
@@ -109,8 +109,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
       decoration: InputDecoration(
         labelText: label,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00C853))),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00C853))),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00A19C))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF00A19C))),
       ),
     );
   }

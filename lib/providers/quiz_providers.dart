@@ -48,58 +48,64 @@ class QuizState {
 class QuizController extends StateNotifier<QuizState> {
   QuizController() : super(QuizState(questions: []));
 
-  /// Initialise le quiz avec une liste de questions (5 choix)
   void setQuestions(List<Question> q) {
-    state = QuizState(questions: List<Question>.from(q));
+    state = QuizState(
+      questions: q,
+      currentIndex: 0,
+      selections: List<int?>.filled(q.length, null),
+      submitted: false,
+      score: 0,
+    );
   }
 
-  /// Sélectionne une option pour la question courante.
-  /// Ne calcule pas le score et n'avance pas : permet modification avant submit.
-  void selectOption(int optionIndex) {
-    final idx = state.currentIndex;
-    final selections = List<int?>.from(state.selections);
-    if (idx < selections.length) {
-      selections[idx] = optionIndex;
-      state = state.copyWith(selections: selections);
-    }
+  void selectOption(int index) {
+    if (state.submitted) return;
+
+    final newSelections = [...state.selections];
+    newSelections[state.currentIndex] = index;
+
+    state = state.copyWith(selections: newSelections);
   }
 
-  /// Aller à la question suivante (si possible)
   void nextQuestion() {
-    if (state.currentIndex + 1 < state.questions.length) {
+    if (state.currentIndex < state.questions.length - 1) {
       state = state.copyWith(currentIndex: state.currentIndex + 1);
     }
   }
 
-  /// Aller à la question précédente (si possible)
   void previousQuestion() {
-    if (state.currentIndex - 1 >= 0) {
+    if (state.currentIndex > 0) {
       state = state.copyWith(currentIndex: state.currentIndex - 1);
     }
   }
 
-  /// Vérifie si toutes les questions ont une réponse (sélections non-null)
-  bool allAnswered() {
-    return !state.selections.contains(null) && state.questions.isNotEmpty;
+  /// 🔥 METHOD YOU WERE MISSING
+  bool isFinished() {
+    return state.currentIndex + 1 >= state.questions.length;
   }
 
-  /// Soumettre le quiz : calcule le score (10 points par bonne réponse)
+  bool allAnswered() {
+    return !state.selections.contains(null);
+  }
+
   void submitQuiz() {
     int total = 0;
-    for (var i = 0; i < state.questions.length; i++) {
-      final sel = state.selections[i];
-      if (sel != null && sel == state.questions[i].correctIndex) {
+
+    for (int i = 0; i < state.questions.length; i++) {
+      final selected = state.selections[i];
+      if (selected != null && selected == state.questions[i].correctIndex) {
         total += 10;
       }
     }
+
     state = state.copyWith(score: total, submitted: true);
   }
 
-  /// Recommencer (reset)
   void restart() {
-    final q = List<Question>.from(state.questions)..shuffle(Random());
-    state = QuizState(questions: q);
+    final reshuffled = [...state.questions]..shuffle();
+    setQuestions(reshuffled);
   }
 }
+
 
 final quizControllerProvider = StateNotifierProvider<QuizController, QuizState>((ref) => QuizController());
