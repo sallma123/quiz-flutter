@@ -263,10 +263,12 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                       }
                       else {
                         ctrl.submitQuiz();
+                        // 🔥 relire le state APRÈS mise à jour
+                        final updatedState = ref.read(quizControllerProvider);
                         context.go(
                           '/result',
                           extra: {
-                            'score': quizState.score,
+                            'score': updatedState.score,
                             'total': quizState.questions.length,
                             'questions': quizState.questions,
                             'selections': quizState.selections,

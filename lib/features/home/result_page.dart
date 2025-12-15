@@ -97,57 +97,66 @@ class ResultPage extends StatelessWidget {
 
                   // POURCENTAGE CERCLE
                   Center(
-                    child: SizedBox(
-                      height: 160,
-                      width: 160,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          // Cercle de progression (extérieur)
-                          SizedBox(
-                            height: 160,
-                            width: 160,
-                            child: CircularProgressIndicator(
-                              value: percent / 100,
-                              strokeWidth: 14,
-                              color: const Color(0xFF9C77FF),
-                              backgroundColor: Colors.grey.shade300,
-                            ),
-                          ),
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0, end: percent / 100),
+                      duration: const Duration(milliseconds: 900),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, _) {
+                        final animatedPercent = (value * 100).round();
 
-                          // Cercle blanc intérieur (plus petit)
-                          Container(
-                            height: 120,
-                            width: 120,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-
-                          // Texte centré
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        return SizedBox(
+                          height: 160,
+                          width: 160,
+                          child: Stack(
+                            alignment: Alignment.center,
                             children: [
-                              Text(
-                                "$percent%",
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
+                              // Cercle de progression animé
+                              SizedBox(
+                                height: 160,
+                                width: 160,
+                                child: CircularProgressIndicator(
+                                  value: value,
+                                  strokeWidth: 14,
+                                  color: const Color(0xFF9C77FF),
+                                  backgroundColor: Colors.grey.shade300,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                "réussite",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
+
+                              // Cercle blanc intérieur
+                              Container(
+                                height: 120,
+                                width: 120,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
                                 ),
+                              ),
+
+                              // Texte animé au centre
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "$animatedPercent%",
+                                    style: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  const Text(
+                                    "réussite",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
 
