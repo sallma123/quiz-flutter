@@ -1,9 +1,11 @@
-// lib/features/home/quiz_page.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+
 import '../../core/constants.dart';
+import '../../models/history_record.dart';
 import '../../providers/question_provider.dart';
 import '../../providers/quiz_providers.dart';
 
@@ -32,8 +34,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     countdown = Timer.periodic(const Duration(seconds: 1), (t) {
       if (timer == 0) {
         t.cancel();
-        // Passe à la question suivante automatiquement
         final ctrl = ref.read(quizControllerProvider.notifier);
+
         if (!ctrl.isFinished()) {
           ctrl.nextQuestion();
           startTimer();
@@ -48,8 +50,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
   void initState() {
     super.initState();
 
-    // Charger les 5 questions et démarrer timer
-    ref.read(randomQuestionsProvider(widget.categoryId).future).then((list) {
+    ref
+        .read(randomQuestionsProvider(widget.categoryId).future)
+        .then((list) {
       ref.read(quizControllerProvider.notifier).setQuestions(list);
       startTimer();
     });
@@ -67,8 +70,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final ctrl = ref.read(quizControllerProvider.notifier);
 
     if (quizState.questions.isEmpty) {
-      return Scaffold(
-        body: const Center(child: CircularProgressIndicator()),
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -80,7 +83,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
         child: Column(
           children: [
             // =====================
-            // HEADER VIOLET
+            // HEADER
             // =====================
             Container(
               width: double.infinity,
@@ -94,7 +97,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
               ),
               child: Column(
                 children: [
-                  // Timer circulaire
+                  // TIMER
                   Container(
                     height: 80,
                     width: 80,
@@ -116,12 +119,11 @@ class _QuizPageState extends ConsumerState<QuizPage> {
 
                   const SizedBox(height: 15),
 
-                  // INDICATEURS 1 2 3 4 5
+                  // INDICATEURS
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(quizState.questions.length, (i) {
                       final isActive = i == quizState.currentIndex;
-
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         height: 30,
@@ -151,12 +153,11 @@ class _QuizPageState extends ConsumerState<QuizPage> {
             const SizedBox(height: 20),
 
             // =====================
-            // CARTE QUESTION
+            // QUESTION
             // =====================
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18),
@@ -164,57 +165,50 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                   BoxShadow(
                     color: Colors.black.withOpacity(.1),
                     blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  )
+                  ),
                 ],
               ),
-              child: Column(
-                children: [
-                  Text(
-                    q.text,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ],
+              child: Text(
+                q.text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
 
             const SizedBox(height: 25),
 
             // =====================
-            // OPTIONS A B C D
+            // OPTIONS
             // =====================
             Expanded(
               child: ListView.builder(
                 itemCount: q.options.length,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemBuilder: (context, i) {
-                  final selected = quizState.selections[quizState.currentIndex];
+                  final selected =
+                  quizState.selections[quizState.currentIndex];
                   final isSelected = selected == i;
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        elevation: 0,
                         backgroundColor: isSelected
                             ? const Color(0xFF9C77FF)
                             : const Color(0xFFD6C9FF),
+                        elevation: 0,
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: () {
-                        ctrl.selectOption(i);
-                      },
+                      onPressed: () => ctrl.selectOption(i),
                       child: Row(
                         children: [
-                          // Lettre A, B, C, D
                           Container(
                             height: 36,
                             width: 36,
@@ -247,71 +241,85 @@ class _QuizPageState extends ConsumerState<QuizPage> {
               ),
             ),
 
-// =====================
-// BOUTON SUIVANT / TERMINER + QUITTER
-// =====================
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Si pas toutes les réponses → on passe à la question suivante
-                      if (!ctrl.isFinished()) {
-                        ctrl.nextQuestion();
-                        startTimer();
-                      }
-                      else {
-                        ctrl.submitQuiz();
-                        // 🔥 relire le state APRÈS mise à jour
-                        final updatedState = ref.read(quizControllerProvider);
-                        context.go(
-                          '/result',
-                          extra: {
-                            'score': updatedState.score,
-                            'total': quizState.questions.length,
-                            'questions': quizState.questions,
-                            'selections': quizState.selections,
-                          },
-                        );
+            // =====================
+            // ACTIONS
+            // =====================
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (!ctrl.isFinished()) {
+                          ctrl.nextQuestion();
+                          startTimer();
+                        } else {
+                          // 🔥 FIN DU QUIZ
+                          ctrl.submitQuiz();
+                          final updatedState =
+                          ref.read(quizControllerProvider);
 
-                      }
-                    },
+                          // 🔥 ENREGISTREMENT HISTORIQUE
+                          final historyBox =
+                          Hive.box<HistoryRecord>('history');
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF9C77FF),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                          final record = HistoryRecord(
+                            id: DateTime.now().millisecondsSinceEpoch.toString(),
+                            categoryId: widget.categoryId,
+                            title: widget.title,
+                            dateTime: DateTime.now(),
+                            score: updatedState.score,
+                            totalQuestions: updatedState.questions.length,
+                            questions: updatedState.questions,
+                            selections: updatedState.selections,
+                          );
+
+                          await historyBox.add(record);
+
+                          // 🔥 NAVIGATION RESULTATS
+                          context.go(
+                            '/result',
+                            extra: {
+                              'score': updatedState.score,
+                              'total': updatedState.questions.length,
+                              'questions': updatedState.questions,
+                              'selections': updatedState.selections,
+                            },
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF9C77FF),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        ctrl.isFinished()
+                            ? "Terminer le quiz"
+                            : "Suivant",
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
+                  ),
 
-                    // Texte dynamique : "Suivant" ou "Terminer"
-                    child: Text(
-                      ctrl.isFinished() ? "Terminer le quiz" : "Suivant",
-                      style: const TextStyle(fontSize: 16),
+                  TextButton(
+                    onPressed: () {
+                      countdown?.cancel();
+                      context.go(AppRoutes.main);
+                    },
+                    child: const Text(
+                      "Quitter",
+                      style:
+                      TextStyle(color: Colors.purple, fontSize: 16),
                     ),
                   ),
-                ),
-
-// Bouton quitter -> retour HomePage
-                TextButton(
-                  onPressed: () {
-                    countdown?.cancel();  // stop timer proprement
-                    context.go(AppRoutes.main);  // retour direct à la page d'accueil
-                  },
-                  child: const Text(
-                    "Quitter",
-                    style: TextStyle(color: Colors.purple, fontSize: 16),
-                  ),
-                ),
-
-              ],
+                ],
+              ),
             ),
-
-
-            const SizedBox(height: 10),
           ],
         ),
       ),

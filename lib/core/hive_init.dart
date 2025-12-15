@@ -1,17 +1,34 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/question.dart';
+import '../models/history_record.dart';
 
 Future<void> initHiveAndSeed() async {
+  // =========================
+  // Initialisation Hive
+  // =========================
   await Hive.initFlutter();
 
-  // Enregistrer l'adapter Question
-  Hive.registerAdapter(QuestionAdapter());
+  // =========================
+  // Enregistrement des adapters
+  // =========================
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(QuestionAdapter());
+  }
 
-  // Ouvrir la box de questions
-  final box = await Hive.openBox<Question>('questions');
+  if (!Hive.isAdapterRegistered(2)) {
+    Hive.registerAdapter(HistoryRecordAdapter());
+  }
 
-  // Ajouter des données par défaut si la box est vide
-  if (box.isEmpty) {
+  // =========================
+  // Ouverture des boxes
+  // =========================
+  final questionBox = await Hive.openBox<Question>('questions');
+  await Hive.openBox<HistoryRecord>('history');
+
+  // =========================
+  // Seed des questions (UNE SEULE FOIS)
+  // =========================
+  if (questionBox.isEmpty) {
     final sample = [
       Question(
         id: 'gen_1',
@@ -34,7 +51,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Atlantique', 'Indien', 'Arctique', 'Pacifique'],
         correctIndex: 3,
       ),
-
       Question(
         id: 'gen_4',
         categoryId: 'gen',
@@ -42,7 +58,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Mars', 'Vénus', 'Mercure', 'Terre'],
         correctIndex: 2,
       ),
-
       Question(
         id: 'gen_5',
         categoryId: 'gen',
@@ -50,7 +65,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Ozone', 'Or', 'Oxygène', 'Osmium'],
         correctIndex: 2,
       ),
-
       Question(
         id: 'gen_6',
         categoryId: 'gen',
@@ -58,7 +72,6 @@ Future<void> initHiveAndSeed() async {
         options: ['60', '100', '80', '120'],
         correctIndex: 0,
       ),
-
       Question(
         id: 'gen_7',
         categoryId: 'gen',
@@ -66,7 +79,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Chine', 'Corée du Sud', 'Japon', 'Thaïlande'],
         correctIndex: 2,
       ),
-
       Question(
         id: 'gen_8',
         categoryId: 'gen',
@@ -74,7 +86,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Anglais', 'Mandarin', 'Espagnol', 'Hindi'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_9',
         categoryId: 'gen',
@@ -82,7 +93,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Le cœur', 'Le cerveau', 'Les poumons', 'Le foie'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_10',
         categoryId: 'gen',
@@ -90,7 +100,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Rome', 'Milan', 'Naples', 'Florence'],
         correctIndex: 0,
       ),
-
       Question(
         id: 'gen_11',
         categoryId: 'gen',
@@ -98,7 +107,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Nil', 'Amazone', 'Yangtsé', 'Mississippi'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_12',
         categoryId: 'gen',
@@ -106,7 +114,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Altimètre', 'Thermomètre', 'Baromètre', 'Hygromètre'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_13',
         categoryId: 'gen',
@@ -114,7 +121,6 @@ Future<void> initHiveAndSeed() async {
         options: ['365', '366', '364', '360'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_14',
         categoryId: 'gen',
@@ -122,7 +128,6 @@ Future<void> initHiveAndSeed() async {
         options: ['Dollar', 'Euro', 'Yen', 'Won'],
         correctIndex: 2,
       ),
-
       Question(
         id: 'gen_15',
         categoryId: 'gen',
@@ -130,15 +135,18 @@ Future<void> initHiveAndSeed() async {
         options: ['Antilope', 'Guépard', 'Lion', 'Léopard'],
         correctIndex: 1,
       ),
-
       Question(
         id: 'gen_16',
         categoryId: 'gen',
         text: 'Quelle mer borde la France au sud ?',
-        options: ['Mer du Nord', 'Ocean Atlantique', 'Mer Méditerranée', 'Mer Baltique'],
+        options: [
+          'Mer du Nord',
+          'Océan Atlantique',
+          'Mer Méditerranée',
+          'Mer Baltique'
+        ],
         correctIndex: 2,
       ),
-
       Question(
         id: 'gen_17',
         categoryId: 'gen',
@@ -153,7 +161,6 @@ Future<void> initHiveAndSeed() async {
         options: ['9', '10', '11', '12'],
         correctIndex: 2,
       ),
-
       Question(
         id: 'myth_1',
         categoryId: 'myth',
@@ -164,9 +171,11 @@ Future<void> initHiveAndSeed() async {
     ];
 
     for (final q in sample) {
-      await box.put(q.id, q);
+      await questionBox.put(q.id, q);
     }
 
     print("Questions initialisées dans Hive ✔️");
   }
+
+  print("Hive prêt : questions + historique ✔️");
 }
