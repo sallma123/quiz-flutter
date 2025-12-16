@@ -78,7 +78,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final q = quizState.questions[quizState.currentIndex];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0FF),
+      backgroundColor: const Color(0xFFF8FAFF),
       body: SafeArea(
         child: Column(
           children: [
@@ -89,7 +89,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: const BoxDecoration(
-                color: Color(0xFF9C77FF),
+                color: Color(0xFF334155), // Bleu ardoise
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(35),
                   bottomRight: Radius.circular(35),
@@ -103,7 +103,10 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     width: 80,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 4),
+                      border: Border.all(
+                        color: const Color(0xFFA5B4FC), // Lavande
+                        width: 4,
+                      ),
                     ),
                     child: Center(
                       child: Text(
@@ -129,7 +132,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: isActive ? Colors.white : Colors.white54,
+                          color: isActive
+                              ? const Color(0xFFA5B4FC)
+                              : Colors.white54,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -137,7 +142,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                             "${i + 1}",
                             style: TextStyle(
                               color: isActive
-                                  ? const Color(0xFF9C77FF)
+                                  ? const Color(0xFF334155)
                                   : Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -163,7 +168,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.1),
+                    color: Colors.black.withOpacity(.05),
                     blurRadius: 8,
                   ),
                 ],
@@ -174,6 +179,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
+                  color: Color(0xFF1E293B),
                 ),
               ),
             ),
@@ -197,8 +203,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isSelected
-                            ? const Color(0xFF9C77FF)
-                            : const Color(0xFFD6C9FF),
+                            ? const Color(0xFFA5B4FC)
+                            : const Color(0xFFE0E7FF),
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 12),
@@ -221,7 +227,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                                 String.fromCharCode(65 + i),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF9C77FF),
+                                  color: Color(0xFF334155),
                                 ),
                               ),
                             ),
@@ -230,7 +236,10 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           Expanded(
                             child: Text(
                               q.options[i],
-                              style: const TextStyle(fontSize: 16),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF1E293B),
+                              ),
                             ),
                           ),
                         ],
@@ -256,43 +265,15 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           ctrl.nextQuestion();
                           startTimer();
                         } else {
-                          // 🔥 FIN DU QUIZ
                           ctrl.submitQuiz();
-                          final updatedState =
-                          ref.read(quizControllerProvider);
-
-                          // 🔥 ENREGISTREMENT HISTORIQUE
-                          final historyBox =
-                          Hive.box<HistoryRecord>('history');
-
-                          final record = HistoryRecord(
-                            id: DateTime.now().millisecondsSinceEpoch.toString(),
-                            categoryId: widget.categoryId,
-                            title: widget.title,
-                            dateTime: DateTime.now(),
-                            score: updatedState.score,
-                            totalQuestions: updatedState.questions.length,
-                            questions: updatedState.questions,
-                            selections: updatedState.selections,
-                          );
-
-                          await historyBox.add(record);
-
-                          // 🔥 NAVIGATION RESULTATS
-                          context.go(
-                            '/result',
-                            extra: {
-                              'score': updatedState.score,
-                              'total': updatedState.questions.length,
-                              'questions': updatedState.questions,
-                              'selections': updatedState.selections,
-                            },
-                          );
+                          context.go('/result');
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF9C77FF),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor:
+                        const Color(0xFF334155),
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -313,8 +294,10 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     },
                     child: const Text(
                       "Quitter",
-                      style:
-                      TextStyle(color: Colors.purple, fontSize: 16),
+                      style: TextStyle(
+                        color: Color(0xFF334155),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
@@ -324,5 +307,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
         ),
       ),
     );
+
   }
 }

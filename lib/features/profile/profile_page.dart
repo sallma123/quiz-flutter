@@ -10,6 +10,8 @@ import '../../core/constants.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
+import '../auth/auth_controller.dart';
+
 String hashPassword(String password, String userId) {
   final bytes = utf8.encode(userId + password); // ⚠️ même logique que AuthRepository
   return sha256.convert(bytes).toString();
@@ -156,7 +158,7 @@ class ProfilePage extends ConsumerWidget {
                         child: IconButton(
                           icon: const Icon(Icons.logout),
                           color: Colors.white,
-                          onPressed: () => _showLogoutDialog(context),
+                          onPressed: () => _showLogoutDialog(context, ref),
                         ),
                       ),
                     ],
@@ -288,22 +290,23 @@ class _SectionCard extends StatelessWidget {
 // =====================
 // LOGOUT
 // =====================
-void _showLogoutDialog(BuildContext context) {
+void _showLogoutDialog(BuildContext context, WidgetRef ref) {
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
       title: const Text("Déconnexion"),
-      content:
-      const Text("Voulez-vous vraiment vous déconnecter ?"),
+      content: const Text("Voulez-vous vraiment vous déconnecter ?"),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text("Annuler"),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             Navigator.pop(context);
-            context.go(AppRoutes.login);
+
+            // 🔥 LOGOUT CENTRALISÉ
+            ref.read(authControllerProvider.notifier).logout();
           },
           child: const Text("Déconnexion"),
         ),
@@ -311,6 +314,7 @@ void _showLogoutDialog(BuildContext context) {
     ),
   );
 }
+
 
 // =====================
 // EDIT PROFILE

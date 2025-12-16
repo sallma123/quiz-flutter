@@ -9,5 +9,6 @@ class AppRoutes {
   static const String profile = '/home/profile';
   static const String history = '/home/history';
   static const String quiz = '/quiz';
-
+  static const result = '/result';
+  static const answers = '/answers';
 }

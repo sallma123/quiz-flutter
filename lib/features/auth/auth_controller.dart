@@ -12,6 +12,9 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
 
 enum AuthStatus { unknown, authenticated, unauthenticated, loading, error }
 
+// =====================
+// AUTH STATE
+// =====================
 class AuthState {
   final AuthStatus status;
   final String? token;
@@ -28,13 +31,30 @@ class AuthState {
   });
 
   const AuthState.unknown() : this._(status: AuthStatus.unknown);
-  const AuthState.unauthenticated() : this._(status: AuthStatus.unauthenticated);
+
+  const AuthState.unauthenticated()
+      : this._(status: AuthStatus.unauthenticated);
+
   const AuthState.loading() : this._(status: AuthStatus.loading);
-  const AuthState.authenticated(String token, String name, String email)
-      : this._(status: AuthStatus.authenticated, token: token, name: name, email: email);
-  const AuthState.error(String message) : this._(status: AuthStatus.error, errorMessage: message);
+
+  const AuthState.authenticated(
+      String token,
+      String name,
+      String email,
+      ) : this._(
+    status: AuthStatus.authenticated,
+    token: token,
+    name: name,
+    email: email,
+  );
+
+  const AuthState.error(String message)
+      : this._(status: AuthStatus.error, errorMessage: message);
 }
 
+// =====================
+// AUTH CONTROLLER
+// =====================
 class AuthController extends StateNotifier<AuthState> {
   final AuthRepository _repo;
   final FlutterSecureStorage _secureStorage;
@@ -43,21 +63,29 @@ class AuthController extends StateNotifier<AuthState> {
   static const _nameKey = 'auth_name';
   static const _emailKey = 'auth_email';
 
-  AuthController(this._repo, this._secureStorage) : super(const AuthState.unknown()) {
-    _loadFromStorage();
+  AuthController(this._repo, this._secureStorage)
+      : super(const AuthState.unknown()) {
+    _restoreSession();
   }
 
-  Future<void> _loadFromStorage() async {
+  // =====================
+  // RESTORE SESSION (AU DÉMARRAGE SEULEMENT)
+  // =====================
+  Future<void> _restoreSession() async {
     final token = await _secureStorage.read(key: _tokenKey);
     final name = await _secureStorage.read(key: _nameKey);
     final email = await _secureStorage.read(key: _emailKey);
-    if (token != null && email != null && name != null) {
+
+    if (token != null && name != null && email != null) {
       state = AuthState.authenticated(token, name, email);
     } else {
       state = const AuthState.unauthenticated();
     }
   }
 
+  // =====================
+  // SIGNUP
+  // =====================
   Future<void> signup({
     required String name,
     required String email,
@@ -65,49 +93,92 @@ class AuthController extends StateNotifier<AuthState> {
   }) async {
     try {
       state = const AuthState.loading();
-      final res = await _repo.signup(name: name, email: email, password: password);
+
+      final res = await _repo.signup(
+        name: name,
+        email: email,
+        password: password,
+      );
+
       final token = res['token'] as String;
       final user = res['user'] as Map<String, dynamic>;
+
       await _secureStorage.write(key: _tokenKey, value: token);
-      await _secureStorage.write(key: _nameKey, value: user['name'] as String);
-      await _secureStorage.write(key: _emailKey, value: user['email'] as String);
-      state = AuthState.authenticated(token, user['name'] as String, user['email'] as String);
+      await _secureStorage.write(
+          key: _nameKey, value: user['name'] as String);
+      await _secureStorage.write(
+          key: _emailKey, value: user['email'] as String);
+
+      state = AuthState.authenticated(
+        token,
+        user['name'] as String,
+        user['email'] as String,
+      );
     } catch (e) {
-      state = AuthState.error(e.toString().replaceAll('Exception: ', ''));
+      state = AuthState.error(
+        e.toString().replaceAll('Exception: ', ''),
+      );
     }
   }
 
-  Future<void> login({required String email, required String password}) async {
+  // =====================
+  // LOGIN
+  // =====================
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       state = const AuthState.loading();
-      final res = await _repo.login(email: email, password: password);
+
+      final res = await _repo.login(
+        email: email,
+        password: password,
+      );
+
       final token = res['token'] as String;
       final user = res['user'] as Map<String, dynamic>;
+
       await _secureStorage.write(key: _tokenKey, value: token);
-      await _secureStorage.write(key: _nameKey, value: user['name'] as String);
-      await _secureStorage.write(key: _emailKey, value: user['email'] as String);
-      state = AuthState.authenticated(token, user['name'] as String, user['email'] as String);
+      await _secureStorage.write(
+          key: _nameKey, value: user['name'] as String);
+      await _secureStorage.write(
+          key: _emailKey, value: user['email'] as String);
+
+      state = AuthState.authenticated(
+        token,
+        user['name'] as String,
+        user['email'] as String,
+      );
     } catch (e) {
-      state = AuthState.error(e.toString().replaceAll('Exception: ', ''));
+      state = AuthState.error(
+        e.toString().replaceAll('Exception: ', ''),
+      );
     }
   }
 
-  Future<void> logout() async {
-    try {
-      state = const AuthState.loading();
-      await _repo.logout();
-      await _secureStorage.delete(key: _tokenKey);
-      await _secureStorage.delete(key: _nameKey);
-      await _secureStorage.delete(key: _emailKey);
-      state = const AuthState.unauthenticated();
-    } catch (e) {
-      state = AuthState.error(e.toString());
-    }
+  // =====================
+  // LOGOUT (🔥 FIX CRITIQUE 🔥)
+  // =====================
+  void logout() {
+    // ✅ 1. ÉTAT IMMÉDIAT (aucun loader, aucun unknown)
+    state = const AuthState.unauthenticated();
+
+    // ✅ 2. Nettoyage storage en arrière-plan
+    _secureStorage.delete(key: _tokenKey);
+    _secureStorage.delete(key: _nameKey);
+    _secureStorage.delete(key: _emailKey);
+
+    // (optionnel) repo logout si futur backend
+    _repo.logout();
   }
 }
 
-// provider pour le controller
-final authControllerProvider = StateNotifierProvider<AuthController, AuthState>((ref) {
+// =====================
+// PROVIDER
+// =====================
+final authControllerProvider =
+StateNotifierProvider<AuthController, AuthState>((ref) {
   final repo = ref.read(authRepositoryProvider);
   final storage = ref.read(secureStorageProvider);
   return AuthController(repo, storage);
