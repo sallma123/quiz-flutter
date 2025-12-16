@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../../models/history_record.dart';
 import '../../models/user.dart';
+import '../../core/constants.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+
+String hashPassword(String password, String userId) {
+  final bytes = utf8.encode(userId + password); // ⚠️ même logique que AuthRepository
+  return sha256.convert(bytes).toString();
+}
+
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -11,310 +22,205 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historyBox = Hive.box<HistoryRecord>('history');
-    final userBox = Hive.box<User>('users');
-
-    // =====================
-    // USER (création auto si vide)
-    // =====================
-    final user = userBox.values.isNotEmpty
-        ? userBox.values.first
-        : () {
-      final u = User(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: "Utilisateur",
-        email: "utilisateur@quiz.app",
-        passwordHash: "",
-      );
-      userBox.add(u);
-      return u;
-    }();
-
-    final history = historyBox.values.toList();
-
-    // =====================
-    // STATS GLOBALES
-    // =====================
-    final totalQuiz = history.length;
-    final totalScore =
-    history.fold<int>(0, (sum, h) => sum + h.score);
-    final totalQuestions =
-    history.fold<int>(0, (sum, h) => sum + h.totalQuestions);
-
-    final percent = totalQuestions == 0
-        ? 0
-        : ((totalScore / (totalQuestions * 10)) * 100).round();
-
-    // =====================
-    // NIVEAU
-    // =====================
-    int level = 1;
-    if (totalScore >= 700) {
-      level = 4;
-    } else if (totalScore >= 300) {
-      level = 3;
-    } else if (totalScore >= 100) {
-      level = 2;
-    }
-
-    final levelSteps = [0, 100, 300, 700, 1200];
-    final progress = level == 4
-        ? 1.0
-        : (totalScore - levelSteps[level - 1]) /
-        (levelSteps[level] - levelSteps[level - 1]);
-
-    // =====================
-    // CATÉGORIES (ANALYSE)
-    // =====================
-    final Map<String, int> categoryCount = {};
-    for (final h in history) {
-      categoryCount[h.title] =
-          (categoryCount[h.title] ?? 0) + 1;
-    }
-
-    final sortedCategories = categoryCount.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
-
-    final bestCategory =
-    sortedCategories.isNotEmpty ? sortedCategories.first.key : null;
-    final weakCategory =
-    sortedCategories.length > 1 ? sortedCategories.last.key : null;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F0FF),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // =====================
-              // HEADER PROFIL
-              // =====================
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF9C77FF),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(35),
-                    bottomRight: Radius.circular(35),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    // Avatar avec initiale
-                    CircleAvatar(
-                      radius: 42,
-                      backgroundColor: Colors.white,
-                      child: Text(
-                        user.name.isNotEmpty
-                            ? user.name[0].toUpperCase()
-                            : "?",
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+      body: ValueListenableBuilder<Box<User>>(
+        valueListenable: Hive.box<User>('users').listenable(),
+        builder: (context, userBox, _) {
+          // =====================
+          // USER (obligatoirement existant)
+          // =====================
+          if (userBox.values.isEmpty) {
+            userBox.add(
+              User(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: "Utilisateur",
+                email: "utilisateur@quiz.app",
+                passwordHash: "",
+              ),
+            );
+          }
+
+          final user = userBox.values.first;
+          final history = historyBox.values.toList();
+
+          // =====================
+          // STATS
+          // =====================
+          final totalQuiz = history.length;
+          final totalScore =
+          history.fold<int>(0, (sum, h) => sum + h.score);
+          final totalQuestions =
+          history.fold<int>(0, (sum, h) => sum + h.totalQuestions);
+
+          final percent = totalQuestions == 0
+              ? 0
+              : ((totalScore / (totalQuestions * 10)) * 100).round();
+
+          // =====================
+          // LEVEL
+          // =====================
+          int level = 1;
+          if (totalScore >= 700) {
+            level = 4;
+          } else if (totalScore >= 300) {
+            level = 3;
+          } else if (totalScore >= 100) {
+            level = 2;
+          }
+
+          final levelSteps = [0, 100, 300, 700, 1200];
+          final progress = level == 4
+              ? 1.0
+              : (totalScore - levelSteps[level - 1]) /
+              (levelSteps[level] - levelSteps[level - 1]);
+
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // =====================
+                  // HEADER
+                  // =====================
+                  Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 30),
+                        decoration: const BoxDecoration(
                           color: Color(0xFF9C77FF),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(35),
+                            bottomRight: Radius.circular(35),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 42,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                user.name.isNotEmpty
+                                    ? user.name[0].toUpperCase()
+                                    : "?",
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF9C77FF),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              user.name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+
+                            // MODIFIER PROFIL
+                            TextButton.icon(
+                              onPressed: () =>
+                                  _showEditProfileSheet(context, user),
+                              icon:
+                              const Icon(Icons.edit, color: Colors.white),
+                              label: const Text(
+                                "Modifier le profil",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+
+                            // CHANGER MOT DE PASSE
+                            TextButton.icon(
+                              onPressed: () =>
+                                  _showChangePasswordSheet(context, user),
+                              icon:
+                              const Icon(Icons.lock, color: Colors.white),
+                              label: const Text(
+                                "Changer le mot de passe",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      user.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+
+                      // LOGOUT
+                      Positioned(
+                        top: 16,
+                        right: 16,
+                        child: IconButton(
+                          icon: const Icon(Icons.logout),
+                          color: Colors.white,
+                          onPressed: () => _showLogoutDialog(context),
+                        ),
                       ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // =====================
+                  // STATS
+                  // =====================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        _StatCard("Quiz", "$totalQuiz", Icons.quiz),
+                        _StatCard(
+                            "Score", "$totalScore pts", Icons.star),
+                        _StatCard(
+                            "Réussite", "$percent%", Icons.trending_up),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    TextButton.icon(
-                      onPressed: () async {
-                        final controller =
-                        TextEditingController(text: user.name);
+                  ),
 
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: const Text("Modifier le profil"),
-                            content: TextField(
-                              controller: controller,
-                              decoration:
-                              const InputDecoration(labelText: "Nom"),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context),
-                                child: const Text("Annuler"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  user.name = controller.text;
-                                  user.save();
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Enregistrer"),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon:
-                      const Icon(Icons.edit, color: Colors.white),
-                      label: const Text(
-                        "Modifier le profil",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  const SizedBox(height: 20),
 
-              const SizedBox(height: 20),
-
-              // =====================
-              // STATS
-              // =====================
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    _StatCard("Quiz", totalQuiz.toString(), Icons.quiz),
-                    _StatCard(
-                        "Score", "$totalScore pts", Icons.star),
-                    _StatCard(
-                        "Réussite", "$percent%", Icons.trending_up),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // =====================
-              // NIVEAU
-              // =====================
-              _SectionCard(
-                title: "Niveau $level",
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0, end: progress),
-                      duration: const Duration(milliseconds: 800),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, value, _) {
-                        return LinearProgressIndicator(
-                          value: value,
+                  // =====================
+                  // LEVEL
+                  // =====================
+                  _SectionCard(
+                    title: "Niveau $level",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LinearProgressIndicator(
+                          value: progress,
                           minHeight: 8,
                           backgroundColor: Colors.grey.shade300,
                           color: const Color(0xFF9C77FF),
                           borderRadius: BorderRadius.circular(10),
-                        );
-                      },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "$totalScore / ${levelSteps[level]} pts",
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
+                  ),
 
-                    const SizedBox(height: 8),
-                    Text(
-                      "$totalScore / ${levelSteps[level]} pts",
-                      style:
-                      const TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
+                  const SizedBox(height: 30),
+                ],
               ),
-
-// =====================
-// SUCCÈS / BADGES
-// =====================
-              _SectionCard(
-                title: "Succès",
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    AnimatedBadge(
-                      icon: Icons.flag,
-                      active: totalQuiz >= 1,
-                      label: "Premier quiz",
-                      description: "Compléter votre premier quiz",
-                    ),
-                    AnimatedBadge(
-                      icon: Icons.star,
-                      active: totalScore >= 100,
-                      label: "100 points",
-                      description: "Atteindre un score total de 100 points",
-                    ),
-                    AnimatedBadge(
-                      icon: Icons.whatshot,
-                      active: totalQuiz >= 3,
-                      label: "Série",
-                      description: "Jouer au moins 3 quiz",
-                    ),
-                    AnimatedBadge(
-                      icon: Icons.emoji_events,
-                      active: percent >= 80,
-                      label: "Expert",
-                      description: "Avoir un taux de réussite supérieur à 80%",
-                    ),
-                  ],
-                ),
-              ),
-
-
-// =====================
-// ANALYSE PERSONNELLE (MODERNE)
-// =====================
-              _SectionCard(
-                title: "Analyse personnelle",
-                child: Column(
-                  children: [
-                    // POINT FORT
-                    _InsightCard(
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                      title: "Point fort",
-                      message: bestCategory != null
-                          ? "Tu réussis le mieux dans la catégorie « $bestCategory »."
-                          : "Aucun point fort détecté pour le moment.",
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // À AMÉLIORER
-                    _InsightCard(
-                      icon: Icons.trending_down,
-                      color: Colors.orange,
-                      title: "À améliorer",
-                      message: weakCategory != null
-                          ? "La catégorie « $weakCategory » mérite plus d'entraînement."
-                          : "Aucune faiblesse détectée pour le moment.",
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // CONSEIL
-                    _InsightCard(
-                      icon: Icons.lightbulb,
-                      color: Colors.blue,
-                      title: "Conseil",
-                      message: _buildAdvice(
-                        totalQuiz: totalQuiz,
-                        percent: percent,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-
-              const SizedBox(height: 30),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
+
+
 }
 
 // =====================
-// WIDGETS
+// HELPERS & WIDGETS
 // =====================
 
 class _StatCard extends StatelessWidget {
@@ -338,13 +244,9 @@ class _StatCard extends StatelessWidget {
           children: [
             Icon(icon, color: const Color(0xFF9C77FF)),
             const SizedBox(height: 6),
-            Text(
-              value,
-              style:
-              const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(title,
-                style: const TextStyle(fontSize: 12)),
+            Text(value,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(title, style: const TextStyle(fontSize: 12)),
           ],
         ),
       ),
@@ -373,8 +275,7 @@ class _SectionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold)),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             child,
           ],
@@ -384,230 +285,338 @@ class _SectionCard extends StatelessWidget {
   }
 }
 
-class _Badge extends StatelessWidget {
-  final IconData icon;
-  final bool active;
-  final String label;
-
-  const _Badge(
-      {required this.icon, required this.active, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    final color =
-    active ? const Color(0xFF9C77FF) : Colors.grey;
-
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 22,
-          backgroundColor: color.withOpacity(.15),
-          child: Icon(icon, color: color),
+// =====================
+// LOGOUT
+// =====================
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: const Text("Déconnexion"),
+      content:
+      const Text("Voulez-vous vraiment vous déconnecter ?"),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Annuler"),
         ),
-        const SizedBox(height: 6),
-        Text(label,
-            style: const TextStyle(fontSize: 12)),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+            context.go(AppRoutes.login);
+          },
+          child: const Text("Déconnexion"),
+        ),
       ],
-    );
-  }
-}
-class AnimatedBadge extends StatefulWidget {
-  final IconData icon;
-  final bool active;
-  final String label;
-  final String description;
-
-  const AnimatedBadge({
-    super.key,
-    required this.icon,
-    required this.active,
-    required this.label,
-    required this.description,
-  });
-
-  @override
-  State<AnimatedBadge> createState() => _AnimatedBadgeState();
+    ),
+  );
 }
 
-class _AnimatedBadgeState extends State<AnimatedBadge>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _scale;
+// =====================
+// EDIT PROFILE
+// =====================
+void _showEditProfileSheet(BuildContext context, User user) {
+  final nameCtrl = TextEditingController(text: user.name);
+  final emailCtrl = TextEditingController(text: user.email);
 
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-
-    _scale = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutBack,
-    );
-
-    // Lancer l'animation
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _showExplanation(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              widget.icon,
-              size: 48,
-              color: const Color(0xFF9C77FF),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              widget.label,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) {
+      return DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.4,
+        maxChildSize: 0.9,
+        expand: false,
+        builder: (context, scrollController) {
+          return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(28),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              widget.description,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey),
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final color =
-    widget.active ? const Color(0xFF9C77FF) : Colors.grey;
-
-    return ScaleTransition(
-      scale: _scale,
-      child: GestureDetector(
-        onLongPress: () => _showExplanation(context),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: color.withOpacity(.15),
-              child: Icon(widget.icon, color: color),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              widget.label,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-class _InsightCard extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-  final String title;
-  final String message;
-
-  const _InsightCard({
-    required this.icon,
-    required this.color,
-    required this.title,
-    required this.message,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeOut,
-      builder: (context, value, child) {
-        return Opacity(
-          opacity: value,
-          child: Transform.translate(
-            offset: Offset(0, 10 * (1 - value)),
-            child: child,
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: color.withOpacity(.08),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: color.withOpacity(.2),
-              child: Icon(icon, color: color),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: color,
+            child: ListView(
+              controller: scrollController,
+              children: [
+                // ===== HANDLE
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    message,
-                    style: const TextStyle(fontSize: 13),
+                ),
+
+                const Text(
+                  "Modifier le profil",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+
+                const SizedBox(height: 24),
+
+                TextField(
+                  controller: nameCtrl,
+                  decoration: const InputDecoration(
+                    labelText: "Nom",
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                TextField(
+                  controller: emailCtrl,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: "Email",
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      user.name = nameCtrl.text.trim();
+                      user.email = emailCtrl.text.trim();
+                      user.save();
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text("Enregistrer"),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        },
+      );
+    },
+  );
 }
-// =====================
-// CONSEIL PERSONNALISÉ
-// =====================
-String _buildAdvice({
-  required int totalQuiz,
-  required int percent,
-}) {
-  if (totalQuiz == 0) {
-    return "Commence par jouer ton premier quiz pour débloquer l'analyse.";
-  }
+void _showChangePasswordSheet(BuildContext context, User user) {
+  final oldCtrl = TextEditingController();
+  final newCtrl = TextEditingController();
+  final confirmCtrl = TextEditingController();
 
-  if (percent >= 80) {
-    return "Excellent niveau ! Essaie des catégories plus difficiles.";
-  }
+  bool showOld = false;
+  bool showNew = false;
+  bool showConfirm = false;
 
-  if (percent >= 50) {
-    return "Bon travail. Concentre-toi sur tes catégories les plus faibles.";
-  }
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return DraggableScrollableSheet(
+            initialChildSize: 0.65,
+            minChildSize: 0.45,
+            maxChildSize: 0.9,
+            expand: false,
+            builder: (context, scrollController) {
+              return Container(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
+                ),
+                child: ListView(
+                  controller: scrollController,
+                  children: [
+                    // HANDLE
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
 
-  return "Prends ton temps, relis les réponses et rejoue régulièrement.";
+                    const Text(
+                      "Changer le mot de passe",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // ANCIEN MOT DE PASSE
+                    TextField(
+                      controller: oldCtrl,
+                      obscureText: !showOld,
+                      decoration: InputDecoration(
+                        labelText: "Ancien mot de passe",
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showOld
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () =>
+                              setState(() => showOld = !showOld),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // NOUVEAU MOT DE PASSE
+                    TextField(
+                      controller: newCtrl,
+                      obscureText: !showNew,
+                      decoration: InputDecoration(
+                        labelText: "Nouveau mot de passe",
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showNew
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () =>
+                              setState(() => showNew = !showNew),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // CONFIRMATION
+                    TextField(
+                      controller: confirmCtrl,
+                      obscureText: !showConfirm,
+                      decoration: InputDecoration(
+                        labelText: "Confirmer le mot de passe",
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showConfirm
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () =>
+                              setState(() => showConfirm = !showConfirm),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    // BOUTON
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // 1️⃣ Vérifier ancien mot de passe (HASHÉ)
+                          final oldHashed =
+                          hashPassword(oldCtrl.text, user.id);
+
+                          if (oldHashed != user.passwordHash) {
+                            _showSnack(
+                              context,
+                              "Ancien mot de passe incorrect",
+                            );
+                            return;
+                          }
+
+                          // 2️⃣ Vérifier nouveau mot de passe
+                          if (newCtrl.text.length < 6) {
+                            _showSnack(
+                              context,
+                              "Le mot de passe doit contenir au moins 6 caractères",
+                            );
+                            return;
+                          }
+
+                          if (newCtrl.text != confirmCtrl.text) {
+                            _showSnack(
+                              context,
+                              "Les mots de passe ne correspondent pas",
+                            );
+                            return;
+                          }
+
+                          // 3️⃣ Sauvegarde HASHÉE
+                          user.passwordHash =
+                              hashPassword(newCtrl.text, user.id);
+                          user.save();
+
+                          Navigator.pop(context);
+                          _showSnack(
+                            context,
+                            "Mot de passe mis à jour avec succès",
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: const Text("Mettre à jour"),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      );
+    },
+  );
+}
+
+
+void _showSnack(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }
 
