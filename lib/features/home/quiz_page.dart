@@ -35,7 +35,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
       if (timer == 0) {
         t.cancel();
         final ctrl = ref.read(quizControllerProvider.notifier);
-
         if (!ctrl.isFinished()) {
           ctrl.nextQuestion();
           startTimer();
@@ -49,7 +48,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
   @override
   void initState() {
     super.initState();
-
     ref
         .read(randomQuestionsProvider(widget.categoryId).future)
         .then((list) {
@@ -69,6 +67,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final quizState = ref.watch(quizControllerProvider);
     final ctrl = ref.read(quizControllerProvider.notifier);
 
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
     if (quizState.questions.isEmpty) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -78,7 +79,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     final q = quizState.questions[quizState.currentIndex];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFF),
+      backgroundColor: colors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -88,9 +89,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: const BoxDecoration(
-                color: Color(0xFF334155), // Bleu ardoise
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: colors.primary,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(35),
                   bottomRight: Radius.circular(35),
                 ),
@@ -104,17 +105,16 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFFA5B4FC), // Lavande
+                        color: colors.secondary,
                         width: 4,
                       ),
                     ),
                     child: Center(
                       child: Text(
                         timer.toString(),
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
+                        style: theme.textTheme.titleLarge?.copyWith(
                           color: Colors.white,
+                          fontSize: 26,
                         ),
                       ),
                     ),
@@ -125,7 +125,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                   // INDICATEURS
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(quizState.questions.length, (i) {
+                    children:
+                    List.generate(quizState.questions.length, (i) {
                       final isActive = i == quizState.currentIndex;
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -133,7 +134,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                         width: 30,
                         decoration: BoxDecoration(
                           color: isActive
-                              ? const Color(0xFFA5B4FC)
+                              ? colors.secondary
                               : Colors.white54,
                           shape: BoxShape.circle,
                         ),
@@ -141,9 +142,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           child: Text(
                             "${i + 1}",
                             style: TextStyle(
-                              color: isActive
-                                  ? const Color(0xFF334155)
-                                  : Colors.white,
+                              color:
+                              isActive ? colors.primary : Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -164,22 +164,22 @@ class _QuizPageState extends ConsumerState<QuizPage> {
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.cardTheme.color,
                 borderRadius: BorderRadius.circular(18),
-                boxShadow: [
+                boxShadow: theme.cardTheme.shadowColor != null
+                    ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.05),
-                    blurRadius: 8,
+                    color: theme.cardTheme.shadowColor!,
+                    blurRadius: theme.cardTheme.elevation ?? 4,
                   ),
-                ],
+                ]
+                    : [],
               ),
               child: Text(
                 q.text,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: theme.textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E293B),
                 ),
               ),
             ),
@@ -203,11 +203,13 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isSelected
-                            ? const Color(0xFFA5B4FC)
-                            : const Color(0xFFE0E7FF),
+                            ? colors.secondary
+                            : colors.secondary.withOpacity(0.25),
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 12),
+                          vertical: 16,
+                          horizontal: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -225,9 +227,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                             child: Center(
                               child: Text(
                                 String.fromCharCode(65 + i),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF334155),
+                                  color: colors.primary,
                                 ),
                               ),
                             ),
@@ -236,10 +238,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           Expanded(
                             child: Text(
                               q.options[i],
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF1E293B),
-                              ),
+                              style: theme.textTheme.bodyMedium,
                             ),
                           ),
                         ],
@@ -266,52 +265,46 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           startTimer();
                         } else {
                           ctrl.submitQuiz();
+                          final quizState =
+                          ref.read(quizControllerProvider);
 
-                          final quizState = ref.read(quizControllerProvider);
-
-                          // 🔥 SAUVEGARDE DANS HIVE
-                          final historyBox = Hive.box<HistoryRecord>('history');
+                          final historyBox =
+                          Hive.box<HistoryRecord>('history');
 
                           final record = HistoryRecord(
-                            id: DateTime.now().millisecondsSinceEpoch.toString(), // ✅ ID UNIQUE
+                            id: DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString(),
                             categoryId: widget.categoryId,
                             title: widget.title,
                             dateTime: DateTime.now(),
                             score: quizState.score,
-                            totalQuestions: quizState.questions.length,
+                            totalQuestions:
+                            quizState.questions.length,
                             questions: quizState.questions,
                             selections: quizState.selections,
                           );
 
                           await historyBox.add(record);
 
-                          // ➜ NAVIGATION RESULT
                           context.go(
                             AppRoutes.result,
                             extra: {
                               'score': quizState.score,
-                              'total': quizState.questions.length,
-                              'questions': quizState.questions,
-                              'selections': quizState.selections,
+                              'total':
+                              quizState.questions.length,
+                              'questions':
+                              quizState.questions,
+                              'selections':
+                              quizState.selections,
                             },
                           );
                         }
-
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                        const Color(0xFF334155),
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
                       child: Text(
                         ctrl.isFinished()
                             ? "Terminer le quiz"
                             : "Suivant",
-                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
@@ -321,13 +314,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                       countdown?.cancel();
                       context.go(AppRoutes.main);
                     },
-                    child: const Text(
-                      "Quitter",
-                      style: TextStyle(
-                        color: Color(0xFF334155),
-                        fontSize: 16,
-                      ),
-                    ),
+                    child: const Text("Quitter"),
                   ),
                 ],
               ),
@@ -336,6 +323,5 @@ class _QuizPageState extends ConsumerState<QuizPage> {
         ),
       ),
     );
-
   }
 }
