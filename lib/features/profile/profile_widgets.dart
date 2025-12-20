@@ -259,38 +259,44 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
 
     showModalBottomSheet(
       context: context,
+      useSafeArea: true, // ✅ Flutter 3.10+
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(widget.icon, size: 48, color: colors.primary),
-            const SizedBox(height: 12),
-            Text(
-              widget.label,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              widget.description,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.7),
+      builder: (_) => SafeArea(
+        top: false, // ❌ on garde le haut arrondi
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(widget.icon, size: 48, color: colors.primary),
+              const SizedBox(height: 12),
+              Text(
+                widget.label,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                widget.description,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(
+                  color: colors.onSurface.withValues(alpha: 0.7),
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
         ),
       ),
     );
+
   }
 
   @override

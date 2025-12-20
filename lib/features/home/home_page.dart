@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
             child: WeatherWidget(),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 2),
 
           // 📚 LISTE MODERNE
           Expanded(
