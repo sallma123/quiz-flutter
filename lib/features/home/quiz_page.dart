@@ -266,8 +266,37 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           startTimer();
                         } else {
                           ctrl.submitQuiz();
-                          context.go('/result');
+
+                          final quizState = ref.read(quizControllerProvider);
+
+                          // 🔥 SAUVEGARDE DANS HIVE
+                          final historyBox = Hive.box<HistoryRecord>('history');
+
+                          final record = HistoryRecord(
+                            id: DateTime.now().millisecondsSinceEpoch.toString(), // ✅ ID UNIQUE
+                            categoryId: widget.categoryId,
+                            title: widget.title,
+                            dateTime: DateTime.now(),
+                            score: quizState.score,
+                            totalQuestions: quizState.questions.length,
+                            questions: quizState.questions,
+                            selections: quizState.selections,
+                          );
+
+                          await historyBox.add(record);
+
+                          // ➜ NAVIGATION RESULT
+                          context.go(
+                            AppRoutes.result,
+                            extra: {
+                              'score': quizState.score,
+                              'total': quizState.questions.length,
+                              'questions': quizState.questions,
+                              'selections': quizState.selections,
+                            },
+                          );
                         }
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants.dart';
+import '../weather/weather_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +12,12 @@ class HomePage extends StatelessWidget {
       'title': 'Culture générale',
       'icon': Icons.psychology,
       'count': 4603,
+    },
+    {
+      'id': 'science',
+      'title': 'Science',
+      'icon': Icons.science,
+      'count': 50,
     },
     {
       'id': 'myth',
@@ -46,6 +53,10 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
+            // 🌦️ MÉTÉO (API REST)
+            const WeatherWidget(),
+            const SizedBox(height: 16),
+            // 📚 LISTE DES CATÉGORIES
             Expanded(
               child: ListView.separated(
                 itemCount: categories.length,
@@ -55,7 +66,13 @@ class HomePage extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      context.go("${AppRoutes.quiz}?id=${cat['id']}&title=${Uri.encodeComponent(cat['title'])}");
+                      context.go(
+                        AppRoutes.quiz,
+                        extra: {
+                          'categoryId': cat['id'],
+                          'title': cat['title'],
+                        },
+                      );
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

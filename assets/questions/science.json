@@ -1,0 +1,352 @@
+[
+  {
+    "id": "science_1",
+    "categoryId": "science",
+    "text": "Quelle planète est surnommée la planète rouge ?",
+    "options": ["Vénus", "Mars", "Jupiter", "Saturne"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_2",
+    "categoryId": "science",
+    "text": "Quel organe pompe le sang dans le corps humain ?",
+    "options": ["Poumon", "Cerveau", "Cœur", "Foie"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_3",
+    "categoryId": "science",
+    "text": "Quelle est la formule chimique de l’eau ?",
+    "options": ["CO2", "H2O", "O2", "H2"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_4",
+    "categoryId": "science",
+    "text": "Quel gaz est essentiel à la respiration humaine ?",
+    "options": ["Azote", "Hydrogène", "Oxygène", "Carbone"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_5",
+    "categoryId": "science",
+    "text": "Combien de planètes compte le système solaire ?",
+    "options": ["7", "8", "9", "10"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_6",
+    "categoryId": "science",
+    "text": "Quel est l’organe principal du système nerveux ?",
+    "options": ["Cœur", "Poumon", "Cerveau", "Rein"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_7",
+    "categoryId": "science",
+    "text": "Quelle force nous maintient sur Terre ?",
+    "options": ["Magnétisme", "Gravité", "Électricité", "Inertie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_8",
+    "categoryId": "science",
+    "text": "Quel scientifique a formulé la loi de la gravitation universelle ?",
+    "options": ["Einstein", "Galilée", "Newton", "Tesla"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_9",
+    "categoryId": "science",
+    "text": "Quelle partie de la plante réalise la photosynthèse ?",
+    "options": ["Racine", "Tige", "Fleur", "Feuille"],
+    "correctIndex": 3
+  },
+  {
+    "id": "science_10",
+    "categoryId": "science",
+    "text": "Quel est l’état de l’eau à 100°C ?",
+    "options": ["Solide", "Liquide", "Gazeux", "Plasma"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_11",
+    "categoryId": "science",
+    "text": "Quel est le plus grand organe du corps humain ?",
+    "options": ["Foie", "Peau", "Cœur", "Poumon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_12",
+    "categoryId": "science",
+    "text": "Quelle planète est la plus grande du système solaire ?",
+    "options": ["Terre", "Jupiter", "Saturne", "Neptune"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_13",
+    "categoryId": "science",
+    "text": "Quel est le symbole chimique du fer ?",
+    "options": ["Ir", "F", "Fe", "Fr"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_14",
+    "categoryId": "science",
+    "text": "Quel sang est le plus riche en oxygène ?",
+    "options": ["Veineux", "Artériel", "Capillaire", "Lymphatique"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_15",
+    "categoryId": "science",
+    "text": "Quel organe permet la filtration du sang ?",
+    "options": ["Foie", "Rein", "Cœur", "Poumon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_16",
+    "categoryId": "science",
+    "text": "Quelle particule possède une charge négative ?",
+    "options": ["Proton", "Neutron", "Électron", "Atome"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_17",
+    "categoryId": "science",
+    "text": "Quel est le centre du système solaire ?",
+    "options": ["La Terre", "La Lune", "Le Soleil", "Mars"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_18",
+    "categoryId": "science",
+    "text": "Quel est l’organe de la vision ?",
+    "options": ["Oreille", "Œil", "Nez", "Cerveau"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_19",
+    "categoryId": "science",
+    "text": "Quelle vitamine est produite par la peau grâce au soleil ?",
+    "options": ["Vitamine A", "Vitamine B", "Vitamine C", "Vitamine D"],
+    "correctIndex": 3
+  },
+  {
+    "id": "science_20",
+    "categoryId": "science",
+    "text": "Quelle est la vitesse approximative de la lumière ?",
+    "options": ["300 km/s", "3 000 km/s", "30 000 km/s", "300 000 km/s"],
+    "correctIndex": 3
+  },
+  {
+    "id": "science_21",
+    "categoryId": "science",
+    "text": "Quel est l’organe responsable de la respiration ?",
+    "options": ["Cœur", "Poumons", "Reins", "Foie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_22",
+    "categoryId": "science",
+    "text": "Quelle planète possède des anneaux visibles ?",
+    "options": ["Mars", "Saturne", "Vénus", "Mercure"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_23",
+    "categoryId": "science",
+    "text": "Quel acide est présent dans l’estomac ?",
+    "options": ["Acide sulfurique", "Acide acétique", "Acide chlorhydrique", "Acide citrique"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_24",
+    "categoryId": "science",
+    "text": "Quel organe produit l’insuline ?",
+    "options": ["Foie", "Pancréas", "Rein", "Estomac"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_25",
+    "categoryId": "science",
+    "text": "Quelle unité mesure la température ?",
+    "options": ["Watt", "Kelvin", "Newton", "Volt"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_26",
+    "categoryId": "science",
+    "text": "Quelle planète est la plus proche du Soleil ?",
+    "options": ["Vénus", "Mercure", "Mars", "Terre"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_27",
+    "categoryId": "science",
+    "text": "Quel est le rôle principal des globules rouges ?",
+    "options": ["Défense", "Transport de l’oxygène", "Coagulation", "Digestion"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_28",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de la digestion ?",
+    "options": ["Poumon", "Estomac", "Cœur", "Cerveau"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_29",
+    "categoryId": "science",
+    "text": "Quel scientifique est connu pour la théorie de la relativité ?",
+    "options": ["Newton", "Darwin", "Einstein", "Galilée"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_30",
+    "categoryId": "science",
+    "text": "Quel est le composant principal de l’air ?",
+    "options": ["Oxygène", "Azote", "Carbone", "Hydrogène"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_31",
+    "categoryId": "science",
+    "text": "Quelle planète est connue pour son grand point rouge ?",
+    "options": ["Mars", "Saturne", "Jupiter", "Neptune"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_32",
+    "categoryId": "science",
+    "text": "Quel organe permet l’audition ?",
+    "options": ["Œil", "Nez", "Oreille", "Bouche"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_33",
+    "categoryId": "science",
+    "text": "Quel est le pH de l’eau pure ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_34",
+    "categoryId": "science",
+    "text": "Quel métal est liquide à température ambiante ?",
+    "options": ["Fer", "Mercure", "Cuivre", "Aluminium"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_35",
+    "categoryId": "science",
+    "text": "Quel organe contrôle les mouvements volontaires ?",
+    "options": ["Cerveau", "Cœur", "Poumon", "Rein"],
+    "correctIndex": 0
+  },
+  {
+    "id": "science_36",
+    "categoryId": "science",
+    "text": "Quel gaz provoque l’effet de serre ?",
+    "options": ["Oxygène", "Azote", "Dioxyde de carbone", "Hélium"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_37",
+    "categoryId": "science",
+    "text": "Quelle planète est surnommée la planète bleue ?",
+    "options": ["Mars", "Terre", "Neptune", "Uranus"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_38",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de l’équilibre ?",
+    "options": ["Œil", "Cerveau", "Oreille interne", "Cœur"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_39",
+    "categoryId": "science",
+    "text": "Quel est l’état de la matière le plus courant dans l’univers ?",
+    "options": ["Solide", "Liquide", "Gazeux", "Plasma"],
+    "correctIndex": 3
+  },
+  {
+    "id": "science_40",
+    "categoryId": "science",
+    "text": "Quel est le nom de notre galaxie ?",
+    "options": ["Andromède", "Voie lactée", "Orion", "Centaurus"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_41",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de la mémoire ?",
+    "options": ["Cerveau", "Cœur", "Poumon", "Foie"],
+    "correctIndex": 0
+  },
+  {
+    "id": "science_42",
+    "categoryId": "science",
+    "text": "Quelle molécule transporte l’énergie dans les cellules ?",
+    "options": ["ADN", "ATP", "ARN", "Glucose"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_43",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de la vue nocturne ?",
+    "options": ["Cônes", "Bâtonnets", "Cristallin", "Cornée"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_44",
+    "categoryId": "science",
+    "text": "Quel est le plus petit os du corps humain ?",
+    "options": ["Étrier", "Tibia", "Fémur", "Radius"],
+    "correctIndex": 0
+  },
+  {
+    "id": "science_45",
+    "categoryId": "science",
+    "text": "Quel est le rôle principal de l’ADN ?",
+    "options": ["Transporter l’oxygène", "Stocker l’information génétique", "Produire de l’énergie", "Digérer les aliments"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_46",
+    "categoryId": "science",
+    "text": "Quel gaz est le plus abondant dans l’atmosphère terrestre ?",
+    "options": ["Oxygène", "Azote", "Argon", "Hydrogène"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_47",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de la production de la bile ?",
+    "options": ["Pancréas", "Estomac", "Foie", "Intestin"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_48",
+    "categoryId": "science",
+    "text": "Quelle est la principale source d’énergie du Soleil ?",
+    "options": ["Combustion", "Fission", "Fusion nucléaire", "Radioactivité"],
+    "correctIndex": 2
+  },
+  {
+    "id": "science_49",
+    "categoryId": "science",
+    "text": "Quel organe est responsable de la filtration de l’air inspiré ?",
+    "options": ["Poumon", "Nez", "Bouche", "Trachée"],
+    "correctIndex": 1
+  },
+  {
+    "id": "science_50",
+    "categoryId": "science",
+    "text": "Quel est le nom de l’unité de base de la vie ?",
+    "options": ["Atome", "Molécule", "Cellule", "Tissu"],
+    "correctIndex": 2
+  }
+]

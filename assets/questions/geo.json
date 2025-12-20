@@ -1,0 +1,352 @@
+[
+  {
+    "id": "geo_1",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale du Canada ?",
+    "options": ["Toronto", "Vancouver", "Ottawa", "Montréal"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_2",
+    "categoryId": "geo",
+    "text": "Quel est le plus grand continent du monde ?",
+    "options": ["Afrique", "Europe", "Asie", "Amérique"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_3",
+    "categoryId": "geo",
+    "text": "Quel océan borde la côte ouest de l’Afrique ?",
+    "options": ["Océan Indien", "Océan Pacifique", "Océan Arctique", "Océan Atlantique"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_4",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale du Japon ?",
+    "options": ["Kyoto", "Osaka", "Tokyo", "Hiroshima"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_5",
+    "categoryId": "geo",
+    "text": "Quel pays est le plus peuplé du monde ?",
+    "options": ["États-Unis", "Inde", "Chine", "Russie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_6",
+    "categoryId": "geo",
+    "text": "Quelle est la plus longue rivière du monde ?",
+    "options": ["Nil", "Amazone", "Yangtsé", "Mississippi"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_7",
+    "categoryId": "geo",
+    "text": "Quelle chaîne de montagnes sépare l’Europe de l’Asie ?",
+    "options": ["Alpes", "Himalaya", "Oural", "Andes"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_8",
+    "categoryId": "geo",
+    "text": "Quel est le plus grand désert chaud du monde ?",
+    "options": ["Gobi", "Kalahari", "Sahara", "Arabique"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_9",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Australie ?",
+    "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_10",
+    "categoryId": "geo",
+    "text": "Quel pays possède la plus grande superficie ?",
+    "options": ["Canada", "Chine", "États-Unis", "Russie"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_11",
+    "categoryId": "geo",
+    "text": "Quel est le plus haut sommet du monde ?",
+    "options": ["K2", "Mont Blanc", "Everest", "Kilimandjaro"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_12",
+    "categoryId": "geo",
+    "text": "Quelle mer borde le Maroc au nord ?",
+    "options": ["Mer Rouge", "Mer Méditerranée", "Mer Noire", "Mer Baltique"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_13",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale du Brésil ?",
+    "options": ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_14",
+    "categoryId": "geo",
+    "text": "Quel pays est traversé par le Nil ?",
+    "options": ["Égypte", "Kenya", "Afrique du Sud", "Nigeria"],
+    "correctIndex": 0
+  },
+  {
+    "id": "geo_15",
+    "categoryId": "geo",
+    "text": "Quel continent est entièrement situé dans l’hémisphère sud ?",
+    "options": ["Afrique", "Amérique du Sud", "Australie", "Antarctique"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_16",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Espagne ?",
+    "options": ["Barcelone", "Madrid", "Valence", "Séville"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_17",
+    "categoryId": "geo",
+    "text": "Quel océan est le plus vaste du monde ?",
+    "options": ["Atlantique", "Indien", "Arctique", "Pacifique"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_18",
+    "categoryId": "geo",
+    "text": "Quel pays est surnommé le pays du Soleil-Levant ?",
+    "options": ["Chine", "Corée du Sud", "Japon", "Thaïlande"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_19",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Italie ?",
+    "options": ["Milan", "Venise", "Rome", "Naples"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_20",
+    "categoryId": "geo",
+    "text": "Quel pays est composé de nombreuses îles ?",
+    "options": ["Italie", "Indonésie", "Allemagne", "Mexique"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_21",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Allemagne ?",
+    "options": ["Munich", "Francfort", "Berlin", "Hambourg"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_22",
+    "categoryId": "geo",
+    "text": "Quel fleuve traverse Paris ?",
+    "options": ["Loire", "Rhône", "Seine", "Garonne"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_23",
+    "categoryId": "geo",
+    "text": "Quel est le plus petit pays du monde ?",
+    "options": ["Monaco", "Malte", "Vatican", "Andorre"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_24",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Chine ?",
+    "options": ["Shanghai", "Pékin", "Hong Kong", "Canton"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_25",
+    "categoryId": "geo",
+    "text": "Quel pays est traversé par l’équateur ?",
+    "options": ["Égypte", "Équateur", "Espagne", "Argentine"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_26",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Russie ?",
+    "options": ["Saint-Pétersbourg", "Kiev", "Moscou", "Varsovie"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_27",
+    "categoryId": "geo",
+    "text": "Quel pays a pour capitale Rabat ?",
+    "options": ["Algérie", "Tunisie", "Maroc", "Égypte"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_28",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Argentine ?",
+    "options": ["Santiago", "Buenos Aires", "Lima", "Montevideo"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_29",
+    "categoryId": "geo",
+    "text": "Quel continent compte le plus de pays ?",
+    "options": ["Europe", "Afrique", "Asie", "Amérique"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_30",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale du Royaume-Uni ?",
+    "options": ["Manchester", "Birmingham", "Liverpool", "Londres"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_31",
+    "categoryId": "geo",
+    "text": "Quel pays est bordé par la mer Rouge ?",
+    "options": ["Maroc", "Égypte", "Libye", "Tunisie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_32",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Turquie ?",
+    "options": ["Istanbul", "Ankara", "Izmir", "Bursa"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_33",
+    "categoryId": "geo",
+    "text": "Quel fleuve traverse l’Égypte ?",
+    "options": ["Nil", "Tigre", "Euphrate", "Jourdain"],
+    "correctIndex": 0
+  },
+  {
+    "id": "geo_34",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale du Portugal ?",
+    "options": ["Porto", "Faro", "Coimbra", "Lisbonne"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_35",
+    "categoryId": "geo",
+    "text": "Quel pays est célèbre pour les fjords ?",
+    "options": ["Suède", "Finlande", "Norvège", "Islande"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_36",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Grèce ?",
+    "options": ["Athènes", "Thessalonique", "Corinthe", "Sparte"],
+    "correctIndex": 0
+  },
+  {
+    "id": "geo_37",
+    "categoryId": "geo",
+    "text": "Quel pays est traversé par le Rhin ?",
+    "options": ["Espagne", "Italie", "Allemagne", "Portugal"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_38",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Suède ?",
+    "options": ["Oslo", "Copenhague", "Helsinki", "Stockholm"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_39",
+    "categoryId": "geo",
+    "text": "Quel pays est surnommé le pays des mille lacs ?",
+    "options": ["Norvège", "Suède", "Finlande", "Canada"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_40",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Inde ?",
+    "options": ["Mumbai", "New Delhi", "Bangalore", "Calcutta"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_41",
+    "categoryId": "geo",
+    "text": "Quel pays est séparé de l’Europe par le détroit du Bosphore ?",
+    "options": ["Grèce", "Turquie", "Bulgarie", "Roumanie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_42",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Belgique ?",
+    "options": ["Anvers", "Bruges", "Liège", "Bruxelles"],
+    "correctIndex": 3
+  },
+  {
+    "id": "geo_43",
+    "categoryId": "geo",
+    "text": "Quel pays a pour capitale Le Caire ?",
+    "options": ["Tunisie", "Maroc", "Égypte", "Libye"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_44",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Suisse ?",
+    "options": ["Zurich", "Genève", "Berne", "Lausanne"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_45",
+    "categoryId": "geo",
+    "text": "Quel pays est situé au sud de l’Espagne ?",
+    "options": ["Portugal", "France", "Maroc", "Italie"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_46",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de la Norvège ?",
+    "options": ["Stockholm", "Oslo", "Helsinki", "Reykjavik"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_47",
+    "categoryId": "geo",
+    "text": "Quel pays est bordé par l’océan Pacifique ?",
+    "options": ["Brésil", "Chili", "Argentine", "Paraguay"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_48",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Autriche ?",
+    "options": ["Salzbourg", "Innsbruck", "Vienne", "Graz"],
+    "correctIndex": 2
+  },
+  {
+    "id": "geo_49",
+    "categoryId": "geo",
+    "text": "Quel pays est connu pour la Muraille ?",
+    "options": ["Japon", "Chine", "Corée", "Inde"],
+    "correctIndex": 1
+  },
+  {
+    "id": "geo_50",
+    "categoryId": "geo",
+    "text": "Quelle est la capitale de l’Irlande ?",
+    "options": ["Belfast", "Cork", "Galway", "Dublin"],
+    "correctIndex": 3
+  }
+]

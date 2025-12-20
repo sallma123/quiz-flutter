@@ -1,0 +1,352 @@
+[
+  {
+    "id": "sport_1",
+    "categoryId": "sport",
+    "text": "Combien de joueurs composent une équipe de football sur le terrain ?",
+    "options": ["9", "10", "11", "12"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_2",
+    "categoryId": "sport",
+    "text": "Quel pays a remporté la Coupe du Monde 2018 ?",
+    "options": ["Brésil", "France", "Allemagne", "Argentine"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_3",
+    "categoryId": "sport",
+    "text": "Quel sport est pratiqué à Wimbledon ?",
+    "options": ["Football", "Basketball", "Tennis", "Rugby"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_4",
+    "categoryId": "sport",
+    "text": "Combien de points vaut un panier à trois points au basketball ?",
+    "options": ["1", "2", "3", "4"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_5",
+    "categoryId": "sport",
+    "text": "Quel pays est à l'origine des Jeux Olympiques ?",
+    "options": ["Italie", "Grèce", "Égypte", "France"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_6",
+    "categoryId": "sport",
+    "text": "Combien de joueurs composent une équipe de basketball sur le terrain ?",
+    "options": ["4", "5", "6", "7"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_7",
+    "categoryId": "sport",
+    "text": "Quel sport utilise un volant ?",
+    "options": ["Tennis", "Badminton", "Squash", "Ping-pong"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_8",
+    "categoryId": "sport",
+    "text": "Quel joueur est surnommé \"King James\" ?",
+    "options": ["Michael Jordan", "LeBron James", "Kobe Bryant", "Kevin Durant"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_9",
+    "categoryId": "sport",
+    "text": "Combien de sets faut-il gagner pour remporter un match de tennis masculin en Grand Chelem ?",
+    "options": ["2", "3", "4", "5"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_10",
+    "categoryId": "sport",
+    "text": "Quel sport est associé au Tour de France ?",
+    "options": ["Athlétisme", "Cyclisme", "Natation", "Football"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_11",
+    "categoryId": "sport",
+    "text": "Quel pays a remporté le plus de Coupes du Monde de football ?",
+    "options": ["Allemagne", "Italie", "Argentine", "Brésil"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sport_12",
+    "categoryId": "sport",
+    "text": "Combien de joueurs composent une équipe de rugby à XV ?",
+    "options": ["11", "13", "15", "17"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_13",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique avec un ballon ovale ?",
+    "options": ["Football", "Rugby", "Basketball", "Handball"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_14",
+    "categoryId": "sport",
+    "text": "Quel pays organise les Jeux Olympiques 2024 ?",
+    "options": ["États-Unis", "Japon", "France", "Chine"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_15",
+    "categoryId": "sport",
+    "text": "Quel sport compte des disciplines comme le 100m et le saut en longueur ?",
+    "options": ["Natation", "Athlétisme", "Gymnastique", "Cyclisme"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_16",
+    "categoryId": "sport",
+    "text": "Quel joueur a remporté le plus de Ballons d'Or (à ce jour) ?",
+    "options": ["Cristiano Ronaldo", "Lionel Messi", "Pelé", "Zidane"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_17",
+    "categoryId": "sport",
+    "text": "Combien de joueurs composent une équipe de handball ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_18",
+    "categoryId": "sport",
+    "text": "Quel sport est pratiqué par Michael Phelps ?",
+    "options": ["Athlétisme", "Natation", "Cyclisme", "Boxe"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_19",
+    "categoryId": "sport",
+    "text": "Quel pays a remporté la Coupe du Monde 2022 ?",
+    "options": ["France", "Argentine", "Brésil", "Croatie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_20",
+    "categoryId": "sport",
+    "text": "Combien de minutes dure un match de football (temps réglementaire) ?",
+    "options": ["80", "85", "90", "100"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_21",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à Roland-Garros ?",
+    "options": ["Football", "Tennis", "Basketball", "Rugby"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_22",
+    "categoryId": "sport",
+    "text": "Quel pays est célèbre pour le sumo ?",
+    "options": ["Chine", "Corée", "Japon", "Thaïlande"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_23",
+    "categoryId": "sport",
+    "text": "Quel sport se joue avec une raquette et une balle jaune ?",
+    "options": ["Badminton", "Tennis", "Squash", "Ping-pong"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_24",
+    "categoryId": "sport",
+    "text": "Quel est le pays d'origine du judo ?",
+    "options": ["Chine", "Corée", "Japon", "Thaïlande"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_25",
+    "categoryId": "sport",
+    "text": "Quel sport compte des catégories de poids ?",
+    "options": ["Football", "Boxe", "Basketball", "Tennis"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_26",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à Usain Bolt ?",
+    "options": ["Natation", "Athlétisme", "Cyclisme", "Football"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_27",
+    "categoryId": "sport",
+    "text": "Quel sport se joue avec un ballon et un filet au-dessus du terrain ?",
+    "options": ["Basketball", "Volleyball", "Handball", "Rugby"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_28",
+    "categoryId": "sport",
+    "text": "Quel pays a remporté la Coupe du Monde féminine 2019 ?",
+    "options": ["Allemagne", "France", "États-Unis", "Angleterre"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_29",
+    "categoryId": "sport",
+    "text": "Quel sport utilise un ring ?",
+    "options": ["Lutte", "Boxe", "Judo", "Taekwondo"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_30",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à la NBA ?",
+    "options": ["Football", "Basketball", "Baseball", "Hockey"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_31",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique sur glace avec une crosse ?",
+    "options": ["Patinage", "Hockey", "Curling", "Ski"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_32",
+    "categoryId": "sport",
+    "text": "Combien de joueurs composent une équipe de volleyball ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_33",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à la Formule 1 ?",
+    "options": ["Moto", "Rallye", "Course automobile", "Karting"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_34",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique avec une planche et des vagues ?",
+    "options": ["Voile", "Surf", "Ski nautique", "Kayak"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_35",
+    "categoryId": "sport",
+    "text": "Quel pays est célèbre pour le cricket ?",
+    "options": ["Brésil", "Inde", "Espagne", "Italie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_36",
+    "categoryId": "sport",
+    "text": "Quel sport est pratiqué aux Jeux Olympiques d’hiver ?",
+    "options": ["Athlétisme", "Natation", "Ski", "Cyclisme"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_37",
+    "categoryId": "sport",
+    "text": "Quel sport se joue avec un ballon à la main et un but ?",
+    "options": ["Basketball", "Handball", "Volleyball", "Rugby"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_38",
+    "categoryId": "sport",
+    "text": "Quel sport utilise des clubs pour frapper une balle ?",
+    "options": ["Baseball", "Golf", "Hockey", "Cricket"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_39",
+    "categoryId": "sport",
+    "text": "Quel sport est associé au stade de Maracanã ?",
+    "options": ["Football", "Rugby", "Athlétisme", "Tennis"],
+    "correctIndex": 0
+  },
+  {
+    "id": "sport_40",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique avec un kimono ?",
+    "options": ["Karaté", "Boxe", "Lutte", "Escrime"],
+    "correctIndex": 0
+  },
+  {
+    "id": "sport_41",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à Tiger Woods ?",
+    "options": ["Tennis", "Golf", "Basketball", "Baseball"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_42",
+    "categoryId": "sport",
+    "text": "Quel pays est célèbre pour le rugby des All Blacks ?",
+    "options": ["Australie", "Afrique du Sud", "Angleterre", "Nouvelle-Zélande"],
+    "correctIndex": 3
+  },
+  {
+    "id": "sport_43",
+    "categoryId": "sport",
+    "text": "Quel sport utilise une piste d’athlétisme ?",
+    "options": ["Cyclisme", "Athlétisme", "Patinage", "Moto"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_44",
+    "categoryId": "sport",
+    "text": "Quel sport se joue avec un ballon et une batte ?",
+    "options": ["Baseball", "Hockey", "Cricket", "Golf"],
+    "correctIndex": 0
+  },
+  {
+    "id": "sport_45",
+    "categoryId": "sport",
+    "text": "Quel sport est associé au Tournoi des Six Nations ?",
+    "options": ["Football", "Rugby", "Handball", "Basketball"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_46",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique sur un ring octogonal ?",
+    "options": ["Boxe", "Judo", "MMA", "Karaté"],
+    "correctIndex": 2
+  },
+  {
+    "id": "sport_47",
+    "categoryId": "sport",
+    "text": "Quel sport utilise un filet et des smashs ?",
+    "options": ["Tennis", "Badminton", "Volleyball", "Ping-pong"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_48",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à la Coupe Davis ?",
+    "options": ["Football", "Tennis", "Rugby", "Basketball"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_49",
+    "categoryId": "sport",
+    "text": "Quel sport se pratique avec des haltères ?",
+    "options": ["Athlétisme", "Haltérophilie", "Gymnastique", "Lutte"],
+    "correctIndex": 1
+  },
+  {
+    "id": "sport_50",
+    "categoryId": "sport",
+    "text": "Quel sport est associé à Cristiano Ronaldo ?",
+    "options": ["Basketball", "Tennis", "Football", "Athlétisme"],
+    "correctIndex": 2
+  }
+]

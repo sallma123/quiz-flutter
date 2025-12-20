@@ -1,0 +1,352 @@
+[
+  {
+    "id": "gen_1",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale de la France ?",
+    "options": ["Lyon", "Marseille", "Paris", "Bordeaux"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_2",
+    "categoryId": "gen",
+    "text": "Combien de continents existe-t-il sur Terre ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_3",
+    "categoryId": "gen",
+    "text": "Quel est le plus grand océan du monde ?",
+    "options": ["Atlantique", "Indien", "Arctique", "Pacifique"],
+    "correctIndex": 3
+  },
+  {
+    "id": "gen_4",
+    "categoryId": "gen",
+    "text": "Quelle planète est la plus proche du Soleil ?",
+    "options": ["Mars", "Vénus", "Mercure", "Terre"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_5",
+    "categoryId": "gen",
+    "text": "Quel est l’élément chimique dont le symbole est O ?",
+    "options": ["Or", "Ozone", "Oxygène", "Osmium"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_6",
+    "categoryId": "gen",
+    "text": "Combien y a-t-il de minutes dans une heure ?",
+    "options": ["30", "45", "60", "90"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_7",
+    "categoryId": "gen",
+    "text": "Quel pays est surnommé le pays du Soleil-Levant ?",
+    "options": ["Chine", "Corée du Sud", "Japon", "Thaïlande"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_8",
+    "categoryId": "gen",
+    "text": "Quelle est la langue la plus parlée dans le monde ?",
+    "options": ["Anglais", "Espagnol", "Mandarin", "Français"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_9",
+    "categoryId": "gen",
+    "text": "Quel est l’organe principal du système nerveux ?",
+    "options": ["Cœur", "Cerveau", "Poumons", "Foie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_10",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale de l’Italie ?",
+    "options": ["Milan", "Rome", "Naples", "Florence"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_11",
+    "categoryId": "gen",
+    "text": "Quelle est la plus longue rivière du monde ?",
+    "options": ["Nil", "Amazone", "Yangtsé", "Mississippi"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_12",
+    "categoryId": "gen",
+    "text": "Quel instrument sert à mesurer la température ?",
+    "options": ["Baromètre", "Thermomètre", "Hygromètre", "Altimètre"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_13",
+    "categoryId": "gen",
+    "text": "Combien y a-t-il de jours dans une année bissextile ?",
+    "options": ["365", "366", "364", "360"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_14",
+    "categoryId": "gen",
+    "text": "Quelle est la monnaie officielle du Japon ?",
+    "options": ["Yuan", "Won", "Yen", "Dollar"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_15",
+    "categoryId": "gen",
+    "text": "Quel est l’animal terrestre le plus rapide ?",
+    "options": ["Lion", "Guépard", "Léopard", "Antilope"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_16",
+    "categoryId": "gen",
+    "text": "Quelle mer borde la France au sud ?",
+    "options": ["Mer du Nord", "Mer Baltique", "Mer Méditerranée", "Océan Atlantique"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_17",
+    "categoryId": "gen",
+    "text": "Quel est le symbole chimique du fer ?",
+    "options": ["Fe", "Ir", "F", "Fr"],
+    "correctIndex": 0
+  },
+  {
+    "id": "gen_18",
+    "categoryId": "gen",
+    "text": "Quel est le plus grand désert du monde ?",
+    "options": ["Sahara", "Gobi", "Antarctique", "Kalahari"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_19",
+    "categoryId": "gen",
+    "text": "Quel est l’astre autour duquel tourne la Terre ?",
+    "options": ["La Lune", "Mars", "Le Soleil", "Vénus"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_20",
+    "categoryId": "gen",
+    "text": "Combien de côtés a un hexagone ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_21",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale du Maroc ?",
+    "options": ["Casablanca", "Rabat", "Marrakech", "Fès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_22",
+    "categoryId": "gen",
+    "text": "Quelle couleur obtient-on en mélangeant le bleu et le jaune ?",
+    "options": ["Vert", "Orange", "Violet", "Rouge"],
+    "correctIndex": 0
+  },
+  {
+    "id": "gen_23",
+    "categoryId": "gen",
+    "text": "Quel est le plus grand mammifère du monde ?",
+    "options": ["Éléphant", "Rhinocéros", "Baleine bleue", "Orque"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_24",
+    "categoryId": "gen",
+    "text": "Combien y a-t-il de lettres dans l’alphabet français ?",
+    "options": ["24", "25", "26", "27"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_25",
+    "categoryId": "gen",
+    "text": "Quel est le plus petit pays du monde ?",
+    "options": ["Monaco", "Vatican", "Malte", "Andorre"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_26",
+    "categoryId": "gen",
+    "text": "Quel organe permet de respirer ?",
+    "options": ["Cœur", "Foie", "Poumons", "Reins"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_27",
+    "categoryId": "gen",
+    "text": "Quel est le contraire de \"rapide\" ?",
+    "options": ["Lent", "Fort", "Grand", "Court"],
+    "correctIndex": 0
+  },
+  {
+    "id": "gen_28",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale de l’Espagne ?",
+    "options": ["Barcelone", "Madrid", "Valence", "Séville"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_29",
+    "categoryId": "gen",
+    "text": "Quel est le nombre de jours dans une semaine ?",
+    "options": ["5", "6", "7", "8"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_30",
+    "categoryId": "gen",
+    "text": "Quelle planète est surnommée la planète rouge ?",
+    "options": ["Mars", "Vénus", "Jupiter", "Saturne"],
+    "correctIndex": 0
+  },
+  {
+    "id": "gen_31",
+    "categoryId": "gen",
+    "text": "Quel animal est le roi de la jungle ?",
+    "options": ["Tigre", "Lion", "Panthère", "Guépard"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_32",
+    "categoryId": "gen",
+    "text": "Quel est le principal gaz de l’air ?",
+    "options": ["Oxygène", "Azote", "Hydrogène", "Carbone"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_33",
+    "categoryId": "gen",
+    "text": "Quel est le plus grand pays du monde ?",
+    "options": ["Canada", "Chine", "États-Unis", "Russie"],
+    "correctIndex": 3
+  },
+  {
+    "id": "gen_34",
+    "categoryId": "gen",
+    "text": "Combien de secondes y a-t-il dans une minute ?",
+    "options": ["30", "45", "60", "90"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_35",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale de l’Allemagne ?",
+    "options": ["Munich", "Francfort", "Berlin", "Hambourg"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_36",
+    "categoryId": "gen",
+    "text": "Quel est l’état de l’eau à 0°C ?",
+    "options": ["Liquide", "Solide", "Gazeux", "Plasma"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_37",
+    "categoryId": "gen",
+    "text": "Quel est le symbole chimique de l’or ?",
+    "options": ["Ag", "Au", "Or", "O"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_38",
+    "categoryId": "gen",
+    "text": "Quel est le sens opposé de \"nord\" ?",
+    "options": ["Est", "Ouest", "Sud", "Centre"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_39",
+    "categoryId": "gen",
+    "text": "Quel est le plus haut sommet du monde ?",
+    "options": ["K2", "Mont Blanc", "Everest", "Kilimandjaro"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_40",
+    "categoryId": "gen",
+    "text": "Combien de mois compte une année ?",
+    "options": ["10", "11", "12", "13"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_41",
+    "categoryId": "gen",
+    "text": "Quel est le premier mois de l’année ?",
+    "options": ["Février", "Mars", "Janvier", "Décembre"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_42",
+    "categoryId": "gen",
+    "text": "Quelle planète est la plus grande du système solaire ?",
+    "options": ["Terre", "Mars", "Jupiter", "Saturne"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_43",
+    "categoryId": "gen",
+    "text": "Quel est le contraire de \"chaud\" ?",
+    "options": ["Tiède", "Froid", "Sec", "Humide"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_44",
+    "categoryId": "gen",
+    "text": "Quel est l’animal symbole de la sagesse ?",
+    "options": ["Renard", "Chouette", "Lion", "Aigle"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_45",
+    "categoryId": "gen",
+    "text": "Quelle est la capitale du Canada ?",
+    "options": ["Toronto", "Vancouver", "Ottawa", "Montréal"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_46",
+    "categoryId": "gen",
+    "text": "Combien de doigts a une main humaine ?",
+    "options": ["4", "5", "6", "10"],
+    "correctIndex": 1
+  },
+  {
+    "id": "gen_47",
+    "categoryId": "gen",
+    "text": "Quel est le plus petit nombre premier ?",
+    "options": ["0", "1", "2", "3"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_48",
+    "categoryId": "gen",
+    "text": "Quel est le liquide essentiel à la vie ?",
+    "options": ["Lait", "Sang", "Eau", "Huile"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_49",
+    "categoryId": "gen",
+    "text": "Quelle est la couleur du ciel par temps clair ?",
+    "options": ["Rouge", "Vert", "Bleu", "Gris"],
+    "correctIndex": 2
+  },
+  {
+    "id": "gen_50",
+    "categoryId": "gen",
+    "text": "Quel est l’animal domestique le plus répandu ?",
+    "options": ["Chat", "Chien", "Cheval", "Vache"],
+    "correctIndex": 1
+  }
+]

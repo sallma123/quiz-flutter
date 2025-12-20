@@ -1,0 +1,352 @@
+[
+  {
+    "id": "his_1",
+    "categoryId": "his",
+    "text": "En quelle année a eu lieu la Révolution française ?",
+    "options": ["1776", "1789", "1804", "1815"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_2",
+    "categoryId": "his",
+    "text": "Qui était le premier empereur des Français ?",
+    "options": ["Louis XIV", "Napoléon Bonaparte", "Louis XVI", "Charles de Gaulle"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_3",
+    "categoryId": "his",
+    "text": "Quel événement marque la fin de la Première Guerre mondiale ?",
+    "options": ["Traité de Versailles", "Débarquement", "Armistice de 1918", "Révolution russe"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_4",
+    "categoryId": "his",
+    "text": "Qui était le roi de France pendant la Révolution française ?",
+    "options": ["Louis XIII", "Louis XIV", "Louis XV", "Louis XVI"],
+    "correctIndex": 3
+  },
+  {
+    "id": "his_5",
+    "categoryId": "his",
+    "text": "En quelle année a débuté la Seconde Guerre mondiale ?",
+    "options": ["1914", "1939", "1941", "1945"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_6",
+    "categoryId": "his",
+    "text": "Quel pays a été dirigé par Adolf Hitler ?",
+    "options": ["Italie", "Autriche", "Allemagne", "Pologne"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_7",
+    "categoryId": "his",
+    "text": "Quel mur symbolisait la division de l’Europe pendant la Guerre froide ?",
+    "options": ["Mur de Londres", "Mur de Berlin", "Mur de Moscou", "Mur de Varsovie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_8",
+    "categoryId": "his",
+    "text": "Qui était le président de la France pendant la Seconde Guerre mondiale ?",
+    "options": ["Charles de Gaulle", "Philippe Pétain", "Léon Blum", "Georges Clemenceau"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_9",
+    "categoryId": "his",
+    "text": "Quel événement est associé au 14 juillet en France ?",
+    "options": ["Sacre de Napoléon", "Bataille de Waterloo", "Prise de la Bastille", "Armistice"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_10",
+    "categoryId": "his",
+    "text": "Quel empire était dirigé par Jules César ?",
+    "options": ["Empire grec", "Empire romain", "Empire byzantin", "Empire ottoman"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_11",
+    "categoryId": "his",
+    "text": "En quelle année Christophe Colomb a-t-il découvert l’Amérique ?",
+    "options": ["1492", "1500", "1453", "1517"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_12",
+    "categoryId": "his",
+    "text": "Quelle civilisation a construit les pyramides de Gizeh ?",
+    "options": ["Romaine", "Grecque", "Égyptienne", "Mésopotamienne"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_13",
+    "categoryId": "his",
+    "text": "Qui était le roi Soleil ?",
+    "options": ["Louis XIII", "Louis XIV", "Louis XV", "Louis XVI"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_14",
+    "categoryId": "his",
+    "text": "Quel événement marque la chute de l’Empire romain d’Occident ?",
+    "options": ["476", "800", "1492", "1453"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_15",
+    "categoryId": "his",
+    "text": "Qui était le premier président des États-Unis ?",
+    "options": ["Abraham Lincoln", "Thomas Jefferson", "George Washington", "John Adams"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_16",
+    "categoryId": "his",
+    "text": "Quelle guerre opposa le Nord et le Sud des États-Unis ?",
+    "options": ["Guerre d’indépendance", "Guerre de Sécession", "Première Guerre mondiale", "Guerre froide"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_17",
+    "categoryId": "his",
+    "text": "Quel personnage historique est associé à la libération de la France en 1944 ?",
+    "options": ["Napoléon", "Charles de Gaulle", "Churchill", "Roosevelt"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_18",
+    "categoryId": "his",
+    "text": "Quel pays a lancé les bombes atomiques sur Hiroshima et Nagasaki ?",
+    "options": ["Allemagne", "États-Unis", "URSS", "Japon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_19",
+    "categoryId": "his",
+    "text": "Quelle révolution a eu lieu en Russie en 1917 ?",
+    "options": ["Révolution industrielle", "Révolution française", "Révolution bolchévique", "Révolution culturelle"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_20",
+    "categoryId": "his",
+    "text": "Quel traité met fin à la Première Guerre mondiale ?",
+    "options": ["Traité de Rome", "Traité de Versailles", "Traité de Maastricht", "Traité de Tordesillas"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_21",
+    "categoryId": "his",
+    "text": "Quel peuple a construit le Machu Picchu ?",
+    "options": ["Aztèques", "Mayas", "Incas", "Olmèques"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_22",
+    "categoryId": "his",
+    "text": "Qui était le pharaon le plus célèbre de l’Égypte antique ?",
+    "options": ["Ramsès II", "Toutânkhamon", "Khéops", "Akhenaton"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_23",
+    "categoryId": "his",
+    "text": "Quel empire dominait une grande partie du Moyen-Orient au XVIe siècle ?",
+    "options": ["Empire romain", "Empire ottoman", "Empire perse", "Empire byzantin"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_24",
+    "categoryId": "his",
+    "text": "Quelle invention est associée à Gutenberg ?",
+    "options": ["La boussole", "L’imprimerie", "La poudre", "Le papier"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_25",
+    "categoryId": "his",
+    "text": "Quel événement marque le début du Moyen Âge ?",
+    "options": ["Chute de Rome", "Découverte de l’Amérique", "Révolution française", "Renaissance"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_26",
+    "categoryId": "his",
+    "text": "Qui était Jeanne d’Arc ?",
+    "options": ["Reine", "Cheffe militaire", "Religieuse", "Exploratrice"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_27",
+    "categoryId": "his",
+    "text": "Quel pays a construit la Grande Muraille ?",
+    "options": ["Japon", "Chine", "Corée", "Mongolie"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_28",
+    "categoryId": "his",
+    "text": "Quel explorateur portugais a atteint l’Inde par la mer ?",
+    "options": ["Magellan", "Vasco de Gama", "Christophe Colomb", "Cabral"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_29",
+    "categoryId": "his",
+    "text": "Quel événement a eu lieu en 1989 en Allemagne ?",
+    "options": ["Réunification", "Chute du mur de Berlin", "Début de la guerre froide", "Création de l’UE"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_30",
+    "categoryId": "his",
+    "text": "Quel pays a été colonisé par la France en Afrique du Nord ?",
+    "options": ["Maroc", "Algérie", "Tunisie", "Libye"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_31",
+    "categoryId": "his",
+    "text": "Qui était le dirigeant de l’URSS pendant la Seconde Guerre mondiale ?",
+    "options": ["Lénine", "Staline", "Trotski", "Gorbatchev"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_32",
+    "categoryId": "his",
+    "text": "Quel mouvement historique vise à défendre les droits des travailleurs au XIXe siècle ?",
+    "options": ["Humanisme", "Socialisme", "Féodalisme", "Colonialisme"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_33",
+    "categoryId": "his",
+    "text": "Quel empire a été dirigé par Gengis Khan ?",
+    "options": ["Empire ottoman", "Empire perse", "Empire mongol", "Empire chinois"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_34",
+    "categoryId": "his",
+    "text": "Quelle guerre a opposé la France et l’Angleterre au Moyen Âge ?",
+    "options": ["Guerre de Trente Ans", "Guerre de Cent Ans", "Guerre de Sept Ans", "Guerre froide"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_35",
+    "categoryId": "his",
+    "text": "Quel document proclame l’égalité des citoyens en France en 1789 ?",
+    "options": ["Constitution", "Code civil", "Déclaration des droits de l’homme", "Traité de Versailles"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_36",
+    "categoryId": "his",
+    "text": "Quel pays a mené la Révolution industrielle en premier ?",
+    "options": ["France", "États-Unis", "Allemagne", "Royaume-Uni"],
+    "correctIndex": 3
+  },
+  {
+    "id": "his_37",
+    "categoryId": "his",
+    "text": "Qui était le fondateur de l’Empire ottoman ?",
+    "options": ["Soliman", "Mehmed II", "Osman Ier", "Selim"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_38",
+    "categoryId": "his",
+    "text": "Quel événement marque la fin de la Seconde Guerre mondiale ?",
+    "options": ["Débarquement", "Capitulation de l’Allemagne", "Bombes atomiques", "Traité de Paris"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_39",
+    "categoryId": "his",
+    "text": "Quel empire était centré sur Constantinople ?",
+    "options": ["Romain", "Ottoman", "Byzantin", "Perse"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_40",
+    "categoryId": "his",
+    "text": "Quel événement marque la découverte du Nouveau Monde ?",
+    "options": ["1492", "1453", "1517", "1789"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_41",
+    "categoryId": "his",
+    "text": "Qui était le leader de l’Afrique du Sud contre l’apartheid ?",
+    "options": ["Desmond Tutu", "Nelson Mandela", "Thabo Mbeki", "Jacob Zuma"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_42",
+    "categoryId": "his",
+    "text": "Quel pays a été divisé en deux après la Seconde Guerre mondiale ?",
+    "options": ["Italie", "France", "Allemagne", "Japon"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_43",
+    "categoryId": "his",
+    "text": "Quel événement marque la fin de la guerre froide ?",
+    "options": ["Chute du mur de Berlin", "Traité de Versailles", "Début de l’OTAN", "Révolution russe"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_44",
+    "categoryId": "his",
+    "text": "Qui était le premier empereur romain ?",
+    "options": ["Jules César", "Auguste", "Néron", "Caligula"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_45",
+    "categoryId": "his",
+    "text": "Quel empire a construit le Colisée ?",
+    "options": ["Grec", "Égyptien", "Romain", "Byzantin"],
+    "correctIndex": 2
+  },
+  {
+    "id": "his_46",
+    "categoryId": "his",
+    "text": "Quelle période suit le Moyen Âge ?",
+    "options": ["Antiquité", "Renaissance", "Époque moderne", "Révolution"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_47",
+    "categoryId": "his",
+    "text": "Quel pays était dirigé par Mussolini ?",
+    "options": ["Espagne", "Italie", "Allemagne", "Portugal"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_48",
+    "categoryId": "his",
+    "text": "Quel événement marque l’indépendance des États-Unis ?",
+    "options": ["1776", "1789", "1804", "1815"],
+    "correctIndex": 0
+  },
+  {
+    "id": "his_49",
+    "categoryId": "his",
+    "text": "Quel empire a dominé l’Amérique centrale avant les Espagnols ?",
+    "options": ["Inca", "Aztèque", "Maya", "Olmèque"],
+    "correctIndex": 1
+  },
+  {
+    "id": "his_50",
+    "categoryId": "his",
+    "text": "Quel traité fonde l’Union européenne moderne ?",
+    "options": ["Traité de Rome", "Traité de Versailles", "Traité de Maastricht", "Traité de Lisbonne"],
+    "correctIndex": 2
+  }
+]

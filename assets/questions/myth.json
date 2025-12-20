@@ -1,0 +1,352 @@
+[
+  {
+    "id": "myth_1",
+    "categoryId": "myth",
+    "text": "Qui est le roi des dieux dans la mythologie grecque ?",
+    "options": ["Hadès", "Poséidon", "Zeus", "Apollon"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_2",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu de la mer ?",
+    "options": ["Zeus", "Poséidon", "Arès", "Hermès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_3",
+    "categoryId": "myth",
+    "text": "Qui est la déesse de la sagesse ?",
+    "options": ["Héra", "Athéna", "Artémis", "Aphrodite"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_4",
+    "categoryId": "myth",
+    "text": "Quel dieu est le messager des dieux ?",
+    "options": ["Apollon", "Hermès", "Hadès", "Arès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_5",
+    "categoryId": "myth",
+    "text": "Qui est le dieu des enfers ?",
+    "options": ["Zeus", "Poséidon", "Hadès", "Héphaïstos"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_6",
+    "categoryId": "myth",
+    "text": "Qui est la déesse de l’amour ?",
+    "options": ["Athéna", "Héra", "Aphrodite", "Déméter"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_7",
+    "categoryId": "myth",
+    "text": "Quel héros grec a tué le Minotaure ?",
+    "options": ["Achille", "Persée", "Héraclès", "Thésée"],
+    "correctIndex": 3
+  },
+  {
+    "id": "myth_8",
+    "categoryId": "myth",
+    "text": "Quel monstre avait un regard qui pétrifiait ?",
+    "options": ["Méduse", "Hydre", "Chimère", "Cyclope"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_9",
+    "categoryId": "myth",
+    "text": "Quel dieu est le dieu de la guerre ?",
+    "options": ["Arès", "Apollon", "Hermès", "Hadès"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_10",
+    "categoryId": "myth",
+    "text": "Quel dieu est le dieu du soleil et de la musique ?",
+    "options": ["Hermès", "Arès", "Apollon", "Dionysos"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_11",
+    "categoryId": "myth",
+    "text": "Qui est la déesse de la chasse ?",
+    "options": ["Héra", "Athéna", "Artémis", "Aphrodite"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_12",
+    "categoryId": "myth",
+    "text": "Quel héros grec est connu pour sa force exceptionnelle ?",
+    "options": ["Achille", "Persée", "Héraclès", "Ulysse"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_13",
+    "categoryId": "myth",
+    "text": "Qui est l’épouse de Zeus ?",
+    "options": ["Athéna", "Héra", "Aphrodite", "Déméter"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_14",
+    "categoryId": "myth",
+    "text": "Quel héros grec est célèbre pour son intelligence et la ruse du cheval de Troie ?",
+    "options": ["Achille", "Ulysse", "Hector", "Persée"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_15",
+    "categoryId": "myth",
+    "text": "Quel dieu est le dieu du feu et de la forge ?",
+    "options": ["Arès", "Héphaïstos", "Apollon", "Hermès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_16",
+    "categoryId": "myth",
+    "text": "Quel monstre Héraclès a-t-il affronté avec plusieurs têtes ?",
+    "options": ["Chimère", "Hydre", "Cyclope", "Méduse"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_17",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu du vin et de la fête ?",
+    "options": ["Apollon", "Dionysos", "Hermès", "Pan"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_18",
+    "categoryId": "myth",
+    "text": "Qui est le père de Persée ?",
+    "options": ["Hadès", "Zeus", "Poséidon", "Apollon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_19",
+    "categoryId": "myth",
+    "text": "Quel est le nom du royaume des morts ?",
+    "options": ["Olympe", "Tartare", "Hadès", "Élysée"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_20",
+    "categoryId": "myth",
+    "text": "Quel héros grec était invulnérable sauf au talon ?",
+    "options": ["Ulysse", "Achille", "Héraclès", "Persée"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_21",
+    "categoryId": "myth",
+    "text": "Qui a créé les humains selon la mythologie grecque ?",
+    "options": ["Zeus", "Prométhée", "Apollon", "Hermès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_22",
+    "categoryId": "myth",
+    "text": "Quel titan a volé le feu pour l’offrir aux humains ?",
+    "options": ["Atlas", "Prométhée", "Cronos", "Océan"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_23",
+    "categoryId": "myth",
+    "text": "Qui est le dieu du ciel dans la mythologie grecque ?",
+    "options": ["Zeus", "Ouranos", "Cronos", "Apollon"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_24",
+    "categoryId": "myth",
+    "text": "Quel dieu romain correspond à Zeus ?",
+    "options": ["Mars", "Jupiter", "Neptune", "Pluton"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_25",
+    "categoryId": "myth",
+    "text": "Quel dieu romain correspond à Arès ?",
+    "options": ["Mercure", "Mars", "Vulcain", "Neptune"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_26",
+    "categoryId": "myth",
+    "text": "Quel monstre gardait l’entrée des enfers ?",
+    "options": ["Hydre", "Cerbère", "Chimère", "Cyclope"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_27",
+    "categoryId": "myth",
+    "text": "Qui est la déesse de la terre et des récoltes ?",
+    "options": ["Héra", "Déméter", "Athéna", "Artémis"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_28",
+    "categoryId": "myth",
+    "text": "Quel dieu égyptien a une tête de faucon ?",
+    "options": ["Anubis", "Rê", "Horus", "Osiris"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_29",
+    "categoryId": "myth",
+    "text": "Quel dieu égyptien est le dieu des morts ?",
+    "options": ["Rê", "Anubis", "Horus", "Seth"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_30",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est représenté avec un trident ?",
+    "options": ["Zeus", "Poséidon", "Hadès", "Apollon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_31",
+    "categoryId": "myth",
+    "text": "Qui est la déesse de la beauté ?",
+    "options": ["Aphrodite", "Héra", "Athéna", "Artémis"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_32",
+    "categoryId": "myth",
+    "text": "Quel héros a décapité Méduse ?",
+    "options": ["Thésée", "Persée", "Ulysse", "Achille"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_33",
+    "categoryId": "myth",
+    "text": "Quel titan portait le ciel sur ses épaules ?",
+    "options": ["Prométhée", "Atlas", "Cronos", "Ouranos"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_34",
+    "categoryId": "myth",
+    "text": "Quel dieu romain est l’équivalent d’Hermès ?",
+    "options": ["Mercure", "Mars", "Apollon", "Vulcain"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_35",
+    "categoryId": "myth",
+    "text": "Quel héros grec a vaincu le Cyclope Polyphème ?",
+    "options": ["Héraclès", "Ulysse", "Achille", "Persée"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_36",
+    "categoryId": "myth",
+    "text": "Qui est la mère d’Athéna ?",
+    "options": ["Héra", "Métis", "Déméter", "Artémis"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_37",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu des rêves ?",
+    "options": ["Morphée", "Apollon", "Hypnos", "Hermès"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_38",
+    "categoryId": "myth",
+    "text": "Quel dieu est le maître du temps ?",
+    "options": ["Zeus", "Cronos", "Hadès", "Apollon"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_39",
+    "categoryId": "myth",
+    "text": "Quel héros a accompli les 12 travaux ?",
+    "options": ["Achille", "Ulysse", "Héraclès", "Thésée"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_40",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu de la médecine ?",
+    "options": ["Apollon", "Asclépios", "Hermès", "Héphaïstos"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_41",
+    "categoryId": "myth",
+    "text": "Quel animal est associé à Athéna ?",
+    "options": ["Aigle", "Chouette", "Serpent", "Cheval"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_42",
+    "categoryId": "myth",
+    "text": "Quel dieu romain est le dieu de la mer ?",
+    "options": ["Mars", "Neptune", "Jupiter", "Pluton"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_43",
+    "categoryId": "myth",
+    "text": "Quel héros a fondé la ville de Rome selon la légende ?",
+    "options": ["Romulus", "Rémus", "Énée", "Jules César"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_44",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu de l’amour ?",
+    "options": ["Éros", "Apollon", "Hermès", "Arès"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_45",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu du sommeil ?",
+    "options": ["Hypnos", "Morphée", "Thanatos", "Hermès"],
+    "correctIndex": 0
+  },
+  {
+    "id": "myth_46",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu de la mort paisible ?",
+    "options": ["Hadès", "Thanatos", "Hypnos", "Arès"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_47",
+    "categoryId": "myth",
+    "text": "Quel héros grec est célèbre pour son arc ?",
+    "options": ["Achille", "Héraclès", "Ulysse", "Persée"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_48",
+    "categoryId": "myth",
+    "text": "Quel dieu égyptien est le dieu du soleil ?",
+    "options": ["Osiris", "Anubis", "Rê", "Horus"],
+    "correctIndex": 2
+  },
+  {
+    "id": "myth_49",
+    "categoryId": "myth",
+    "text": "Quel monstre était mi-lion, mi-chèvre, mi-serpent ?",
+    "options": ["Hydre", "Chimère", "Cerbère", "Sphinx"],
+    "correctIndex": 1
+  },
+  {
+    "id": "myth_50",
+    "categoryId": "myth",
+    "text": "Quel dieu grec est le dieu des voyageurs ?",
+    "options": ["Hermès", "Apollon", "Arès", "Dionysos"],
+    "correctIndex": 0
+  }
+]
