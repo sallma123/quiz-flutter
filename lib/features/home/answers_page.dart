@@ -14,24 +14,20 @@ class AnswersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0FF),
+      backgroundColor: colors.background,
 
       // =====================
-      // APP BAR MODERNE
+      // APP BAR (THEME)
       // =====================
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        centerTitle: true,
+        title: const Text("Vos réponses"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          "Vos réponses",
-          style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -47,14 +43,14 @@ class AnswersPage extends StatelessWidget {
           final correctIndex = q.correctIndex;
 
           return Container(
-            margin: const EdgeInsets.only(bottom: 18),
+            margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colors.surface,
               borderRadius: BorderRadius.circular(18),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -73,8 +69,8 @@ class AnswersPage extends StatelessWidget {
                     Container(
                       height: 32,
                       width: 32,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF9C77FF),
+                      decoration: BoxDecoration(
+                        color: colors.primary,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -91,8 +87,7 @@ class AnswersPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         q.text,
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -109,7 +104,8 @@ class AnswersPage extends StatelessWidget {
                   final bool isCorrect = i == correctIndex;
                   final bool isSelected = selected == i;
 
-                  Color bgColor = Colors.grey.shade100;
+                  // ⚠️ NE PAS TOUCHER AU VERT / ROUGE
+                  Color bgColor = colors.background;
                   Color borderColor = Colors.transparent;
                   IconData? icon;
 
@@ -126,7 +122,9 @@ class AnswersPage extends StatelessWidget {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: bgColor,
                       borderRadius: BorderRadius.circular(12),
@@ -139,8 +137,12 @@ class AnswersPage extends StatelessWidget {
                           width: 28,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
-                            border: Border.all(color: borderColor),
+                            color: colors.surface,
+                            border: Border.all(
+                              color: borderColor == Colors.transparent
+                                  ? colors.onSurface.withValues(alpha: 0.2)
+                                  : borderColor,
+                            ),
                           ),
                           child: Center(
                             child: Text(
@@ -155,14 +157,15 @@ class AnswersPage extends StatelessWidget {
                         Expanded(
                           child: Text(
                             q.options[i],
-                            style: const TextStyle(fontSize: 15),
+                            style: theme.textTheme.bodyMedium,
                           ),
                         ),
                         if (icon != null)
                           Icon(
                             icon,
-                            color:
-                            isCorrect ? Colors.green : Colors.red,
+                            color: isCorrect
+                                ? Colors.green
+                                : Colors.red,
                           ),
                       ],
                     ),
