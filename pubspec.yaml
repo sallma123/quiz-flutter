@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   flutter:
-
     sdk: flutter
 
   # Génération d'UUID (optionnel)
@@ -26,6 +25,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   crypto: ^3.0.2
   http: ^1.2.0
+
   # UI helpers
   flutter_svg: ^1.1.0
 
@@ -38,8 +38,27 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   hive_generator: ^1.1.0
   build_runner: ^2.4.0
+  # 🔥 ICÔNES DE L’APPLICATION
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
+# 🔥 CONFIGURATION DU LOGO (NE PAS METTRE DANS flutter:)
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logo.png
 
 flutter:
   uses-material-design: true
   assets:
+    - assets/logo.png
+    - assets/logoo.png
+    - assets/logoo1.png
     - assets/questions/
+flutter_native_splash:
+  color: "#DDF4F4"           # fond doux (turquoise clair)
+  image: assets/logoo1.png    # ton logo
+  android: true
+  ios: true
+  android_12:
+    color: "#DDF4F4"
+    image: assets/logoo1.png

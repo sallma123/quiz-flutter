@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../core/constants.dart';
 import 'auth_controller.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,96 +26,276 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
+
     final notifier = ref.read(authControllerProvider.notifier);
-    await notifier.login(email: _emailCtrl.text.trim(), password: _pwdCtrl.text);
+    await notifier.login(
+      email: _emailCtrl.text.trim(),
+      password: _pwdCtrl.text,
+    );
+
     final state = ref.read(authControllerProvider);
+    if (!mounted) return;
+
     if (state.status == AuthStatus.authenticated) {
-      if (!mounted) return;
-      debugPrint('DEBUG: navigated to ${GoRouter.of(context).location} (before go)'); // optionnel
-      context.go(AppRoutes.main); // <-- IMPORTANT : va vers la page avec BottomNav
-      debugPrint('DEBUG: navigated to ${GoRouter.of(context).location} (after go)');
+      context.go(AppRoutes.main);
     } else if (state.status == AuthStatus.error) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage ?? 'Erreur')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.errorMessage ?? 'Erreur')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 36),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text('Connexion', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: const Color(0xFF1A237E))),
-                const SizedBox(height: 24),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      _buildRoundedField(controller: _emailCtrl, label: 'Email', hint: 'ton@exemple.com', keyboardType: TextInputType.emailAddress),
-                      const SizedBox(height: 12),
-                      _buildRoundedField(controller: _pwdCtrl, label: 'Mot de passe', hint: '••••••', obscure: true),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: authState.status == AuthStatus.loading ? null : _submit,
-                          child: authState.status == AuthStatus.loading
-                              ? const CircularProgressIndicator(color: Colors.white)
-                              : const Text('Se connecter'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Center(child: Text("Si tu n'as pas de compte, crée-le :", style: TextStyle(color: Colors.grey[700]))),
-                TextButton(
-                  onPressed: () => context.go(AppRoutes.signup),
-                  child: const Text('Créer un compte', style: TextStyle(color: Color(
-                      0xFF00A19C), fontWeight: FontWeight.bold)),
-                ),
-              ],
+      body: Stack(
+        children: [
+          // 🌥️ BACKGROUND NUAGEUX
+          Positioned.fill(
+            child: CustomPaint(
+              painter: CloudBackgroundPainter(),
             ),
           ),
-        ),
+
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 36),
+
+                    // 🧠 LOGO
+                    Image.asset(
+                      'assets/logoo.png',
+                      height: 130,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // ➖ PETIT TIRET ÉLÉGANT
+                    Container(
+                      width: 48,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: colors.secondary.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // 📝 TEXTE DISCRET ALIGNÉ À GAUCHE
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Bienvenue, connecte-toi pour continuer',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 28),
+
+                    // 📦 CARD FORMULAIRE
+                    Container(
+                      padding: const EdgeInsets.all(22),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: colors.primary.withOpacity(0.12),
+                            blurRadius: 30,
+                            offset: const Offset(0, 18),
+                          ),
+                        ],
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            _buildField(
+                              controller: _emailCtrl,
+                              label: 'Email',
+                              hint: 'exemple@email.com',
+                              icon: Icons.email_outlined,
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildField(
+                              controller: _pwdCtrl,
+                              label: 'Mot de passe',
+                              hint: '••••••••',
+                              icon: Icons.lock_outline,
+                              obscure: true,
+                            ),
+                            const SizedBox(height: 28),
+
+                            // 🔵 BOUTON PREMIUM
+                            SizedBox(
+                              width: double.infinity,
+                              height: 54,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFF326ED1),
+                                      Color(0xFF22C1C3),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  onPressed: authState.status ==
+                                      AuthStatus.loading
+                                      ? null
+                                      : _submit,
+                                  child: authState.status ==
+                                      AuthStatus.loading
+                                      ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                      : const Text(
+                                    'Se connecter',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 22),
+
+                    // 🔗 SIGN UP
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Pas encore de compte ? ",
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        TextButton(
+                          onPressed: () => context.go(AppRoutes.signup),
+                          child: const Text(
+                            'Créer un compte',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 40),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildRoundedField({
+  Widget _buildField({
     required TextEditingController controller,
     required String label,
-    String? hint,
+    required String hint,
+    required IconData icon,
     bool obscure = false,
     TextInputType keyboardType = TextInputType.text,
   }) {
     return TextFormField(
       controller: controller,
-      keyboardType: keyboardType,
       obscureText: obscure,
+      keyboardType: keyboardType,
       validator: (v) {
         if (v == null || v.trim().isEmpty) return 'Champ requis';
-        if (!obscure && keyboardType == TextInputType.emailAddress && !v.contains('@')) return 'Email invalide';
+        if (keyboardType == TextInputType.emailAddress && !v.contains('@')) {
+          return 'Email invalide';
+        }
         return null;
       },
       decoration: InputDecoration(
+        prefixIcon: Icon(
+          icon,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         labelText: label,
         hintText: hint,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(
-            0xFF00A19C))),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(
-            0xFF00A19C))),
+        filled: true,
+        fillColor: const Color(0xFFF0F8FF),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }
+}
+
+/// 🌥️ PAINTER DES NUAGES (MULTI-COUCHES)
+class CloudBackgroundPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bgPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFDDF4F4),
+          Color(0xFFF9FAFB),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      bgPaint,
+    );
+
+    final backCloud = Paint()..color = Colors.white.withOpacity(0.35);
+    final pathBack = Path()
+      ..moveTo(0, size.height * 0.28)
+      ..quadraticBezierTo(
+          size.width * 0.25, size.height * 0.20, size.width * 0.5, size.height * 0.28)
+      ..quadraticBezierTo(
+          size.width * 0.75, size.height * 0.36, size.width, size.height * 0.28)
+      ..lineTo(size.width, 0)
+      ..lineTo(0, 0)
+      ..close();
+    canvas.drawPath(pathBack, backCloud);
+
+    final frontCloud = Paint()..color = Colors.white.withOpacity(0.7);
+    final pathFront = Path()
+      ..moveTo(0, size.height * 0.42)
+      ..quadraticBezierTo(
+          size.width * 0.25, size.height * 0.35, size.width * 0.5, size.height * 0.42)
+      ..quadraticBezierTo(
+          size.width * 0.75, size.height * 0.50, size.width, size.height * 0.42)
+      ..lineTo(size.width, 0)
+      ..lineTo(0, 0)
+      ..close();
+    canvas.drawPath(pathFront, frontCloud);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
