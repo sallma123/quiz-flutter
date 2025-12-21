@@ -40,7 +40,6 @@ dev_dependencies:
   build_runner: ^2.4.0
   # 🔥 ICÔNES DE L’APPLICATION
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.4.1
 # 🔥 CONFIGURATION DU LOGO (NE PAS METTRE DANS flutter:)
 flutter_launcher_icons:
   android: true
@@ -52,13 +51,5 @@ flutter:
   assets:
     - assets/logo.png
     - assets/logoo.png
-    - assets/logoo1.png
     - assets/questions/
-flutter_native_splash:
-  color: "#DDF4F4"           # fond doux (turquoise clair)
-  image: assets/logoo1.png    # ton logo
-  android: true
-  ios: true
-  android_12:
-    color: "#DDF4F4"
-    image: assets/logoo1.png
+

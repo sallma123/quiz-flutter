@@ -12,15 +12,17 @@ import '../features/home/create_quiz_page.dart';
 import '../features/home/quiz_page.dart';
 import '../features/home/result_page.dart';
 import '../features/home/answers_page.dart';
+import '../features/splash/splash_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authControllerProvider);
 
   return GoRouter(
-    initialLocation: AppRoutes.login,
+    // 🚀 L’application démarre sur la Splash Flutter
+    initialLocation: AppRoutes.splash,
 
     // ============================
-    // 🔁 REDIRECTION AUTH
+    // 🔁 REDIRECTION AUTH (PROPRE)
     // ============================
     redirect: (context, state) {
       final isAuthenticated =
@@ -29,6 +31,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isAuthRoute =
           state.location == AppRoutes.login ||
               state.location == AppRoutes.signup;
+
+      final isSplash = state.location == AppRoutes.splash;
+
+      // 🟢 Toujours autoriser la Splash
+      if (isSplash) return null;
 
       // 🚫 NON CONNECTÉ → LOGIN
       if (!isAuthenticated && !isAuthRoute) {
@@ -47,6 +54,12 @@ final routerProvider = Provider<GoRouter>((ref) {
     // 📍 ROUTES
     // ============================
     routes: [
+      // 🌟 SPLASH FLUTTER (UX PRO)
+      GoRoute(
+        path: AppRoutes.splash,
+        builder: (_, __) => const SplashPage(),
+      ),
+
       // 🔐 AUTH
       GoRoute(
         path: AppRoutes.login,
