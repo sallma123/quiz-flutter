@@ -4,18 +4,15 @@ import 'package:flutter/material.dart';
 
 import '../../models/history_record.dart';
 
-/// =====================
-/// HASH PASSWORD
-/// =====================
+/// Hachage du mot de passe
+/// Combine l’identifiant utilisateur et le mot de passe pour plus de sécurité
 String hashPassword(String password, String userId) {
   final bytes = utf8.encode(userId + password);
   return sha256.convert(bytes).toString();
 }
 
-/// =====================
-/// PROFILE STATS MODEL
-/// (optionnel mais propre)
-/// =====================
+/// Modèle de statistiques du profil
+/// Permet de regrouper toutes les données calculées du profil
 class ProfileStats {
   final int totalQuiz;
   final int totalScore;
@@ -34,23 +31,27 @@ class ProfileStats {
   });
 }
 
-/// =====================
-/// CALCULATE PROFILE STATS
-/// =====================
+/// Calcule les statistiques globales du profil utilisateur
+/// À partir de l’historique des quiz
 ProfileStats calculateProfileStats(List<HistoryRecord> history) {
+
+  // Nombre total de quiz joués
   final totalQuiz = history.length;
 
+  // Somme des scores obtenus
   final totalScore =
   history.fold<int>(0, (sum, h) => sum + h.score);
 
+  // Nombre total de questions jouées
   final totalQuestions =
   history.fold<int>(0, (sum, h) => sum + h.totalQuestions);
 
+  // Calcul du pourcentage global de réussite
   final percent = totalQuestions == 0
       ? 0
       : ((totalScore / (totalQuestions * 10)) * 100).round();
 
-  // LEVEL
+  // Détermination du niveau utilisateur
   int level = 1;
   if (totalScore >= 700) {
     level = 4;
@@ -60,7 +61,10 @@ ProfileStats calculateProfileStats(List<HistoryRecord> history) {
     level = 2;
   }
 
+  // Paliers de score pour chaque niveau
   final levelSteps = [0, 100, 300, 700, 1200];
+
+  // Calcul de la progression dans le niveau actuel
   final progress = level == 4
       ? 1.0
       : (totalScore - levelSteps[level - 1]) /
@@ -76,9 +80,7 @@ ProfileStats calculateProfileStats(List<HistoryRecord> history) {
   );
 }
 
-/// =====================
-/// SHOW SNACKBAR
-/// =====================
+/// Affiche un message SnackBar personnalisé sur la page Profil
 void showProfileSnack(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -89,9 +91,8 @@ void showProfileSnack(BuildContext context, String message) {
     ),
   );
 }
-/// =====================
-/// ADVICE HELPER
-/// =====================
+
+/// Génère un conseil personnalisé selon les performances de l’utilisateur
 String buildProfileAdvice({
   required int totalQuiz,
   required int percent,

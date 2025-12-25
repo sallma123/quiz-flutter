@@ -1,6 +1,14 @@
+/// Modèle météo
+/// Représente les informations météo d’une ville
 class Weather {
+
+  // Nom de la ville
   final String city;
+
+  // Température actuelle en degrés Celsius
   final double temperature;
+
+  // Description de l’état du temps (ex: nuageux, ensoleillé)
   final String description;
 
   Weather({
@@ -9,6 +17,8 @@ class Weather {
     required this.description,
   });
 
+  /// Crée un objet Weather à partir d’un JSON
+  /// Utilisé lors de la récupération des données depuis l’API météo
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
       city: json['name'],

@@ -3,6 +3,8 @@ import '../home/home_page.dart';
 import '../history/history_page.dart';
 import '../profile/profile_page.dart';
 
+/// Page principale de navigation
+/// Contient la barre de navigation inférieure et les pages principales
 class MainNavigationPage extends StatefulWidget {
   const MainNavigationPage({super.key});
 
@@ -11,8 +13,11 @@ class MainNavigationPage extends StatefulWidget {
 }
 
 class _MainNavigationPageState extends State<MainNavigationPage> {
+
+  // Index de l’onglet actuellement sélectionné
   int _index = 0;
 
+  // Liste des pages affichées selon l’onglet actif
   final _screens = const [
     HomePage(),
     HistoryPage(),
@@ -21,17 +26,18 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
   @override
   Widget build(BuildContext context) {
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
     return Scaffold(
+
+      // Affiche la page correspondant à l’onglet sélectionné
       body: _screens[_index],
 
-      // =====================
-      // NAVIGATION MODERNE
-      // =====================
+      // Barre de navigation inférieure personnalisée
       bottomNavigationBar: SafeArea(
-        top: false, // on ignore le haut
+        top: false,
         child: Container(
           height: 72,
           decoration: BoxDecoration(
@@ -46,7 +52,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
           ),
           child: Column(
             children: [
-              // INDICATEUR
+
+              // Indicateur animé de l’onglet actif
               AnimatedAlign(
                 alignment: Alignment(
                   _index == 0 ? -1 : _index == 1 ? 0 : 1,
@@ -61,10 +68,12 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
                 ),
               ),
 
-              // ITEMS
+              // Ligne contenant les boutons de navigation
               Expanded(
                 child: Row(
                   children: [
+
+                    // Onglet Accueil
                     _NavItem(
                       icon: Icons.home,
                       label: "Accueil",
@@ -72,6 +81,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
                       onTap: () => setState(() => _index = 0),
                       colors: colors,
                     ),
+
+                    // Onglet Historique
                     _NavItem(
                       icon: Icons.history,
                       label: "Historique",
@@ -79,6 +90,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
                       onTap: () => setState(() => _index = 1),
                       colors: colors,
                     ),
+
+                    // Onglet Profil
                     _NavItem(
                       icon: Icons.person,
                       label: "Profil",
@@ -94,14 +107,13 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
         ),
       ),
     );
-
   }
 }
 
-/// =====================
-/// ITEM NAVIGATION
-/// =====================
+/// Élément individuel de la barre de navigation
+/// Représente un onglet (icône + texte)
 class _NavItem extends StatelessWidget {
+
   final IconData icon;
   final String label;
   final bool isActive;
@@ -124,18 +136,24 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            // Icône de l’onglet
             Icon(
               icon,
               color: isActive
                   ? colors.primary
                   : colors.onSurface.withValues(alpha: 0.45),
             ),
+
             const SizedBox(height: 4),
+
+            // Texte de l’onglet
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                fontWeight:
+                isActive ? FontWeight.w600 : FontWeight.normal,
                 color: isActive
                     ? colors.primary
                     : colors.onSurface.withValues(alpha: 0.45),

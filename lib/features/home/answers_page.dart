@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../models/question.dart';
 
+/// Page d'affichage des réponses du quiz
+/// Permet à l'utilisateur de revoir ses réponses
 class AnswersPage extends StatelessWidget {
+
+  // Liste des questions du quiz
   final List<Question> questions;
+
+  // Liste des réponses sélectionnées par l'utilisateur
   final List<int?> selections;
 
   const AnswersPage({
@@ -14,15 +20,15 @@ class AnswersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Récupération du thème et des couleurs
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
     return Scaffold(
       backgroundColor: colors.background,
 
-      // =====================
-      // APP BAR (THEME)
-      // =====================
+      // Barre supérieure avec bouton retour
       appBar: AppBar(
         title: const Text("Vos réponses"),
         leading: IconButton(
@@ -31,13 +37,12 @@ class AnswersPage extends StatelessWidget {
         ),
       ),
 
-      // =====================
-      // LISTE DES QUESTIONS
-      // =====================
+      // Liste des questions et des réponses
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: questions.length,
         itemBuilder: (context, index) {
+
           final q = questions[index];
           final selected = selections[index];
           final correctIndex = q.correctIndex;
@@ -60,9 +65,8 @@ class AnswersPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // =====================
-                // QUESTION HEADER
-                // =====================
+
+                // En-tête de la question (numéro + texte)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -97,23 +101,25 @@ class AnswersPage extends StatelessWidget {
 
                 const SizedBox(height: 14),
 
-                // =====================
-                // OPTIONS
-                // =====================
+                // Liste des options de réponse
                 ...List.generate(q.options.length, (i) {
+
                   final bool isCorrect = i == correctIndex;
                   final bool isSelected = selected == i;
 
-                  // ⚠️ NE PAS TOUCHER AU VERT / ROUGE
+                  // Couleurs et icône selon le résultat
                   Color bgColor = colors.background;
                   Color borderColor = Colors.transparent;
                   IconData? icon;
 
+                  // Bonne réponse
                   if (isCorrect) {
                     bgColor = Colors.green.shade50;
                     borderColor = Colors.green;
                     icon = Icons.check_circle;
-                  } else if (isSelected && !isCorrect) {
+                  }
+                  // Mauvaise réponse sélectionnée
+                  else if (isSelected && !isCorrect) {
                     bgColor = Colors.red.shade50;
                     borderColor = Colors.red;
                     icon = Icons.cancel;
@@ -132,6 +138,8 @@ class AnswersPage extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
+
+                        // Lettre de l'option (A, B, C, D)
                         Container(
                           height: 28,
                           width: 28,
@@ -153,13 +161,18 @@ class AnswersPage extends StatelessWidget {
                             ),
                           ),
                         ),
+
                         const SizedBox(width: 12),
+
+                        // Texte de la réponse
                         Expanded(
                           child: Text(
                             q.options[i],
                             style: theme.textTheme.bodyMedium,
                           ),
                         ),
+
+                        // Icône indiquant juste ou faux
                         if (icon != null)
                           Icon(
                             icon,

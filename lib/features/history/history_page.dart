@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../../models/history_record.dart';
 
+/// Page Historique
+/// Affiche la liste des quiz déjà passés par l'utilisateur
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
 
@@ -12,11 +14,11 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  String? selectedCategory; // null = tous
 
-  // =====================
-  // FORMAT DATE
-  // =====================
+  // Catégorie sélectionnée pour le filtre (null = toutes)
+  String? selectedCategory;
+
+  /// Formate la date et l'heure d'un quiz
   String formatDate(DateTime d) {
     String two(int n) => n.toString().padLeft(2, '0');
     return "${two(d.day)}/${two(d.month)} • ${two(d.hour)}:${two(d.minute)}";
@@ -24,24 +26,32 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Récupération du thème et des couleurs
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+
+    // Box Hive contenant l'historique
     final box = Hive.box<HistoryRecord>('history');
 
     return Scaffold(
-      backgroundColor: colors.background, // ⚪ fond clair en haut
+      backgroundColor: colors.background,
 
       body: ValueListenableBuilder(
         valueListenable: box.listenable(),
+
+        // Reconstruit l'UI automatiquement quand l'historique change
         builder: (context, Box<HistoryRecord> box, _) {
-          // 🔹 données
+
+          // Liste complète des quiz (du plus récent au plus ancien)
           final allHistory = box.values.toList().reversed.toList();
 
+          // Liste des catégories disponibles
           final categories = {
             for (var h in box.values) h.categoryId: h.title
           };
 
-          // 🔹 filtrage
+          // Application du filtre par catégorie
           final history = selectedCategory == null
               ? allHistory
               : allHistory
@@ -51,11 +61,10 @@ class _HistoryPageState extends State<HistoryPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               const SizedBox(height: 48),
 
-              // =====================
-              // HEADER CLAIR
-              // =====================
+              // Titre principal
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -66,6 +75,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
               const SizedBox(height: 6),
 
+              // Sous-titre
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -78,9 +88,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
               const SizedBox(height: 16),
 
-              // =====================
-              // ZONE BLEUE
-              // =====================
+              // Conteneur principal (zone colorée)
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -92,11 +100,10 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                   child: Column(
                     children: [
+
                       const SizedBox(height: 16),
 
-                      // =====================
-                      // FILTRES DANS LE BLEU
-                      // =====================
+                      // Liste horizontale des filtres par catégorie
                       SizedBox(
                         height: 44,
                         child: ListView(
@@ -104,13 +111,17 @@ class _HistoryPageState extends State<HistoryPage> {
                           padding:
                           const EdgeInsets.symmetric(horizontal: 16),
                           children: [
+
+                            // Filtre "Tous"
                             _FilterChip(
                               label: "Tous",
                               active: selectedCategory == null,
+                              inverted: true,
                               onTap: () =>
                                   setState(() => selectedCategory = null),
-                              inverted: true,
                             ),
+
+                            // Filtres par catégorie
                             ...categories.entries.map(
                                   (e) => _FilterChip(
                                 label: e.value,
@@ -127,9 +138,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
                       const SizedBox(height: 16),
 
-                      // =====================
-                      // LISTE HISTORIQUE
-                      // =====================
+                      // Liste des quiz joués
                       Expanded(
                         child: history.isEmpty
                             ? Center(
@@ -144,14 +153,17 @@ class _HistoryPageState extends State<HistoryPage> {
                               16, 0, 16, 24),
                           itemCount: history.length,
                           itemBuilder: (context, index) {
+
                             final h = history[index];
+
+                            // Calcul du pourcentage de réussite
                             final percent =
                             ((h.score /
                                 (h.totalQuestions * 10)) *
                                 100)
                                 .round();
 
-                            // 🎨 COULEUR SCORE (BLEU POUR 80%)
+                            // Couleur du score selon la performance
                             final Color scoreColor =
                             percent >= 80
                                 ? colors.primary
@@ -162,6 +174,8 @@ class _HistoryPageState extends State<HistoryPage> {
                             return InkWell(
                               borderRadius:
                               BorderRadius.circular(16),
+
+                              // Navigation vers la page des réponses
                               onTap: () {
                                 context.push(
                                   '/answers',
@@ -171,9 +185,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                   },
                                 );
                               },
+
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    bottom: 12),
+                                margin: const EdgeInsets.only(bottom: 12),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   color: colors.surface,
@@ -182,7 +196,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ),
                                 child: Row(
                                   children: [
-                                    // SCORE
+
+                                    // Cercle affichant le score
                                     Container(
                                       height: 48,
                                       width: 48,
@@ -195,8 +210,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                         child: Text(
                                           "$percent%",
                                           style: TextStyle(
-                                            fontWeight:
-                                            FontWeight.bold,
+                                            fontWeight: FontWeight.bold,
                                             color: scoreColor,
                                           ),
                                         ),
@@ -205,7 +219,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
                                     const SizedBox(width: 16),
 
-                                    // INFOS
+                                    // Informations du quiz
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -239,6 +253,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       ),
                                     ),
 
+                                    // Icône de navigation
                                     Icon(
                                       Icons.arrow_forward_ios,
                                       size: 16,
@@ -263,10 +278,10 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 }
 
-// =====================
-// CHIP MODERNE (CLAIR / BLEU)
-// =====================
+/// Widget de filtre personnalisé
+/// Utilisé pour sélectionner une catégorie
 class _FilterChip extends StatelessWidget {
+
   final String label;
   final bool active;
   final bool inverted;
@@ -281,11 +296,14 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final colors = Theme.of(context).colorScheme;
 
     final bg = active
-        ? (inverted ? colors.secondary : colors.secondary)
-        : (inverted ? Colors.white.withValues(alpha: 0.15) : Colors.white);
+        ? colors.secondary
+        : (inverted
+        ? Colors.white.withValues(alpha: 0.15)
+        : Colors.white);
 
     final border = inverted
         ? Colors.white.withValues(alpha: 0.4)

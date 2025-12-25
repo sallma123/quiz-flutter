@@ -8,59 +8,66 @@ import '../features/auth/login_page.dart';
 import '../features/auth/signup_page.dart';
 import '../features/navigation/main_navigation.dart';
 import '../features/home/home_page.dart';
-import '../features/home/create_quiz_page.dart';
 import '../features/home/quiz_page.dart';
 import '../features/home/result_page.dart';
 import '../features/home/answers_page.dart';
 import '../features/splash/splash_page.dart';
 
+/// Provider du routeur de l’application
+/// Gère la navigation et la redirection selon l’état d’authentification
 final routerProvider = Provider<GoRouter>((ref) {
+
+  // État actuel de l’authentification
   final authState = ref.watch(authControllerProvider);
 
   return GoRouter(
-    // 🚀 L’application démarre sur la Splash Flutter
+
+    // Page affichée au démarrage de l’application
     initialLocation: AppRoutes.splash,
 
-    // ============================
-    // 🔁 REDIRECTION AUTH (PROPRE)
-    // ============================
+    /// Logique de redirection automatique
+    /// Empêche l’accès aux pages protégées sans connexion
     redirect: (context, state) {
+
+      // Vérifie si l’utilisateur est connecté
       final isAuthenticated =
           authState.status == AuthStatus.authenticated;
 
+      // Vérifie si la route est liée à l’authentification
       final isAuthRoute =
           state.location == AppRoutes.login ||
               state.location == AppRoutes.signup;
 
+      // Vérifie si la route actuelle est la Splash
       final isSplash = state.location == AppRoutes.splash;
 
-      // 🟢 Toujours autoriser la Splash
+      // La Splash est toujours accessible
       if (isSplash) return null;
 
-      // 🚫 NON CONNECTÉ → LOGIN
+      // Utilisateur non connecté → redirection vers login
       if (!isAuthenticated && !isAuthRoute) {
         return AppRoutes.login;
       }
 
-      // ✅ CONNECTÉ → MAIN
+      // Utilisateur connecté → accès direct à la page principale
       if (isAuthenticated && isAuthRoute) {
         return AppRoutes.main;
       }
 
-      return null; // ✅ PAS DE BOUCLE
+      // Aucune redirection nécessaire
+      return null;
     },
 
-    // ============================
-    // 📍 ROUTES
-    // ============================
+    /// Définition de toutes les routes de l’application
     routes: [
-      // 🌟 SPLASH FLUTTER (UX PRO)
+
+      // Page Splash affichée au lancement
       GoRoute(
         path: AppRoutes.splash,
         builder: (_, __) => const SplashPage(),
       ),
 
-      // 🔐 AUTH
+      // Pages d’authentification
       GoRoute(
         path: AppRoutes.login,
         builder: (_, __) => const LoginPage(),
@@ -70,30 +77,26 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const SignupPage(),
       ),
 
-      // 🧭 MAIN NAVIGATION
+      // Navigation principale (Bottom Navigation)
       GoRoute(
         path: AppRoutes.main,
         builder: (_, __) => const MainNavigationPage(),
       ),
 
-      // 🏠 HOME
+      // Page d’accueil
       GoRoute(
         path: AppRoutes.home,
         builder: (_, __) => const HomePage(),
       ),
 
-      // ➕ CREATE QUIZ
-      GoRoute(
-        path: AppRoutes.createQuiz,
-        builder: (_, __) => const CreateQuizPage(),
-      ),
-
-      // ❓ QUIZ (via extra)
+      // Page du quiz
+      // Les informations sont transmises via "extra"
       GoRoute(
         path: AppRoutes.quiz,
         builder: (context, state) {
           final extra = state.extra;
 
+          // Vérification de sécurité
           if (extra == null || extra is! Map<String, dynamic>) {
             return const Scaffold(
               body: Center(
@@ -109,12 +112,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
 
-      // 🏁 RESULT
+      // Page des résultats du quiz
       GoRoute(
         path: AppRoutes.result,
         builder: (context, state) {
           final extra = state.extra;
 
+          // Vérification des données reçues
           if (extra == null || extra is! Map<String, dynamic>) {
             return const Scaffold(
               body: Center(
@@ -132,12 +136,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
 
-      // 📋 ANSWERS
+      // Page d’affichage des réponses
       GoRoute(
         path: AppRoutes.answers,
         builder: (context, state) {
           final extra = state.extra;
 
+          // Vérification des données reçues
           if (extra == null || extra is! Map<String, dynamic>) {
             return const Scaffold(
               body: Center(

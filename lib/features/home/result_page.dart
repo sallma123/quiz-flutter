@@ -3,10 +3,20 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants.dart';
 import '../../models/question.dart';
 
+/// Page de résultat du quiz
+/// Affiche le score final, le pourcentage de réussite et le détail des réponses
 class ResultPage extends StatelessWidget {
+
+  // Score total obtenu
   final int score;
+
+  // Nombre total de questions
   final int total;
+
+  // Liste des questions jouées
   final List<Question> questions;
+
+  // Réponses sélectionnées par l'utilisateur
   final List<int?> selections;
 
   const ResultPage({
@@ -19,18 +29,26 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
+    // Nombre de réponses correctes
     final correct = selections.asMap().entries.where(
-          (e) => e.value != null && e.value == questions[e.key].correctIndex,
+          (e) => e.value != null &&
+          e.value == questions[e.key].correctIndex,
     ).length;
 
+    // Nombre de réponses incorrectes
     final wrong = selections.asMap().entries.where(
-          (e) => e.value != null && e.value != questions[e.key].correctIndex,
+          (e) => e.value != null &&
+          e.value != questions[e.key].correctIndex,
     ).length;
 
+    // Nombre de questions ignorées
     final skipped = selections.where((s) => s == null).length;
+
+    // Pourcentage de réussite
     final percent = ((correct / total) * 100).toInt();
 
     return Scaffold(
@@ -38,9 +56,8 @@ class ResultPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // =====================
-            // HEADER SCORE (THEME)
-            // =====================
+
+            // En-tête affichant le score
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 32),
@@ -72,9 +89,7 @@ class ResultPage extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // =====================
-            // CARTE RESULTATS
-            // =====================
+            // Carte centrale des résultats
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.all(20),
@@ -91,6 +106,8 @@ class ResultPage extends StatelessWidget {
               ),
               child: Column(
                 children: [
+
+                  // Titre de la section
                   Text(
                     "Analyse du quiz",
                     style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
@@ -98,14 +115,13 @@ class ResultPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // =====================
-                  // POURCENTAGE CERCLE
-                  // =====================
+                  // Cercle animé du pourcentage de réussite
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0, end: percent / 100),
                     duration: const Duration(milliseconds: 900),
                     curve: Curves.easeOutCubic,
                     builder: (context, value, _) {
+
                       final animatedPercent = (value * 100).round();
 
                       return SizedBox(
@@ -114,6 +130,8 @@ class ResultPage extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
+
+                            // Indicateur circulaire
                             SizedBox(
                               height: 160,
                               width: 160,
@@ -125,6 +143,8 @@ class ResultPage extends StatelessWidget {
                                 colors.onSurface.withValues(alpha: 0.15),
                               ),
                             ),
+
+                            // Cercle central
                             Container(
                               height: 120,
                               width: 120,
@@ -133,6 +153,8 @@ class ResultPage extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                             ),
+
+                            // Texte du pourcentage
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -160,15 +182,14 @@ class ResultPage extends StatelessWidget {
 
                   const SizedBox(height: 22),
 
-                  // =====================
-                  // STATS (VERT / ROUGE OK)
-                  // =====================
+                  // Statistiques détaillées
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
                         children: [
-                          const Icon(Icons.check_circle, color: Colors.green),
+                          const Icon(Icons.check_circle,
+                              color: Colors.green),
                           const SizedBox(height: 4),
                           Text("$correct correctes"),
                         ],
@@ -184,8 +205,8 @@ class ResultPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_circle,
-                            color:
-                            colors.onSurface.withValues(alpha: 0.5),
+                            color: colors.onSurface
+                                .withValues(alpha: 0.5),
                           ),
                           const SizedBox(height: 4),
                           Text("$skipped ignorées"),
@@ -199,13 +220,13 @@ class ResultPage extends StatelessWidget {
 
             const Spacer(),
 
-            // =====================
-            // ACTIONS
-            // =====================
+            // Boutons d'action
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
+
+                  // Retour à la page d'accueil
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -213,7 +234,10 @@ class ResultPage extends StatelessWidget {
                       child: const Text("Retour à l'accueil"),
                     ),
                   ),
+
                   const SizedBox(height: 10),
+
+                  // Navigation vers la page des réponses
                   TextButton(
                     onPressed: () {
                       context.push(

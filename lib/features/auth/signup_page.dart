@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants.dart';
 import 'auth_controller.dart';
 
+/// Page d'inscription de l'application
+/// Permet à un nouvel utilisateur de créer un compte
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -13,11 +15,20 @@ class SignupPage extends ConsumerStatefulWidget {
 }
 
 class _SignupPageState extends ConsumerState<SignupPage> {
+
+  // Clé du formulaire pour la validation
   final _formKey = GlobalKey<FormState>();
+
+  // Contrôleur du champ nom
   final _nameCtrl = TextEditingController();
+
+  // Contrôleur du champ email
   final _emailCtrl = TextEditingController();
+
+  // Contrôleur du champ mot de passe
   final _pwdCtrl = TextEditingController();
 
+  /// Libère les ressources quand la page est détruite
   @override
   void dispose() {
     _nameCtrl.dispose();
@@ -26,22 +37,35 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     super.dispose();
   }
 
+  /// Méthode appelée lors du clic sur "S'inscrire"
+  /// Gère la validation et la création du compte
   Future<void> _submit() async {
+
+    // Vérifie si le formulaire est valide
     if (!_formKey.currentState!.validate()) return;
 
+    // Récupère le contrôleur d'authentification
     final notifier = ref.read(authControllerProvider.notifier);
+
+    // Appel de la méthode signup
     await notifier.signup(
       name: _nameCtrl.text.trim(),
       email: _emailCtrl.text.trim(),
       password: _pwdCtrl.text,
     );
 
+    // Lecture de l'état après l'inscription
     final state = ref.read(authControllerProvider);
+
+    // Vérifie que le widget est encore monté
     if (!mounted) return;
 
+    // Si inscription réussie → redirection vers la page d'accueil
     if (state.status == AuthStatus.authenticated) {
       context.go(AppRoutes.home);
-    } else if (state.status == AuthStatus.error) {
+    }
+    // En cas d'erreur → affichage d'un message
+    else if (state.status == AuthStatus.error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(state.errorMessage ?? 'Erreur')),
       );
@@ -50,13 +74,18 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // État actuel de l'authentification
     final authState = ref.watch(authControllerProvider);
+
+    // Couleurs du thème de l'application
     final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Stack(
         children: [
-          // 🌥️ BACKGROUND NUAGEUX (même que login)
+
+          // Arrière-plan personnalisé avec effet nuage
           Positioned.fill(
             child: CustomPaint(
               painter: CloudBackgroundPainter(),
@@ -70,9 +99,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
                     const SizedBox(height: 36),
 
-                    // 🧠 LOGO
+                    // Logo de l'application
                     Image.asset(
                       'assets/logoo.png',
                       height: 130,
@@ -80,7 +110,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
                     const SizedBox(height: 12),
 
-                    // ➖ TIRET DÉCORATIF
+                    // Élément décoratif sous le logo
                     Container(
                       width: 48,
                       height: 4,
@@ -92,7 +122,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
                     const SizedBox(height: 16),
 
-                    // 📝 TEXTE DISCRET
+                    // Texte d'information
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -106,7 +136,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
                     const SizedBox(height: 28),
 
-                    // 📦 CARD FORMULAIRE
+                    // Carte contenant le formulaire d'inscription
                     Container(
                       padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
@@ -124,13 +154,18 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         key: _formKey,
                         child: Column(
                           children: [
+
+                            // Champ Nom
                             _buildField(
                               controller: _nameCtrl,
                               label: 'Nom',
                               hint: 'Ton nom',
                               icon: Icons.person_outline,
                             ),
+
                             const SizedBox(height: 16),
+
+                            // Champ Email
                             _buildField(
                               controller: _emailCtrl,
                               label: 'Email',
@@ -138,7 +173,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               icon: Icons.email_outlined,
                               keyboardType: TextInputType.emailAddress,
                             ),
+
                             const SizedBox(height: 16),
+
+                            // Champ Mot de passe
                             _buildField(
                               controller: _pwdCtrl,
                               label: 'Mot de passe',
@@ -146,9 +184,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               icon: Icons.lock_outline,
                               obscure: true,
                             ),
+
                             const SizedBox(height: 28),
 
-                            // 🔵 BOUTON PREMIUM (dégradé)
+                            // Bouton d'inscription avec dégradé
                             SizedBox(
                               width: double.infinity,
                               height: 54,
@@ -170,12 +209,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),
-                                  onPressed: authState.status ==
-                                      AuthStatus.loading
+
+                                  // Désactive le bouton pendant le chargement
+                                  onPressed: authState.status == AuthStatus.loading
                                       ? null
                                       : _submit,
-                                  child: authState.status ==
-                                      AuthStatus.loading
+
+                                  // Affiche un loader pendant l'inscription
+                                  child: authState.status == AuthStatus.loading
                                       ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
@@ -196,7 +237,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
                     const SizedBox(height: 22),
 
-                    // 🔗 LOGIN
+                    // Lien vers la page de connexion
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -225,6 +266,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     );
   }
 
+  /// Champ de formulaire réutilisable (nom, email, mot de passe)
   Widget _buildField({
     required TextEditingController controller,
     required String label,
@@ -237,6 +279,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
       controller: controller,
       obscureText: obscure,
       keyboardType: keyboardType,
+
+      // Validation des champs
       validator: (v) {
         if (v == null || v.trim().isEmpty) return 'Champ requis';
         if (keyboardType == TextInputType.emailAddress && !v.contains('@')) {
@@ -247,6 +291,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
         }
         return null;
       },
+
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
@@ -265,10 +310,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   }
 }
 
-/// 🌥️ PAINTER DES NUAGES (IDENTIQUE AU LOGIN)
+/// Painter personnalisé pour dessiner un fond nuageux
+/// Identique à celui utilisé dans la page Login
 class CloudBackgroundPainter extends CustomPainter {
+
   @override
   void paint(Canvas canvas, Size size) {
+
+    // Dégradé de fond
     final bgPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
@@ -284,37 +333,27 @@ class CloudBackgroundPainter extends CustomPainter {
       bgPaint,
     );
 
+    // Nuage arrière
     final backCloud = Paint()..color = Colors.white.withOpacity(0.35);
     final pathBack = Path()
       ..moveTo(0, size.height * 0.28)
       ..quadraticBezierTo(
-          size.width * 0.25,
-          size.height * 0.20,
-          size.width * 0.5,
-          size.height * 0.28)
+          size.width * 0.25, size.height * 0.20, size.width * 0.5, size.height * 0.28)
       ..quadraticBezierTo(
-          size.width * 0.75,
-          size.height * 0.36,
-          size.width,
-          size.height * 0.28)
+          size.width * 0.75, size.height * 0.36, size.width, size.height * 0.28)
       ..lineTo(size.width, 0)
       ..lineTo(0, 0)
       ..close();
     canvas.drawPath(pathBack, backCloud);
 
+    // Nuage avant
     final frontCloud = Paint()..color = Colors.white.withOpacity(0.7);
     final pathFront = Path()
       ..moveTo(0, size.height * 0.42)
       ..quadraticBezierTo(
-          size.width * 0.25,
-          size.height * 0.35,
-          size.width * 0.5,
-          size.height * 0.42)
+          size.width * 0.25, size.height * 0.35, size.width * 0.5, size.height * 0.42)
       ..quadraticBezierTo(
-          size.width * 0.75,
-          size.height * 0.50,
-          size.width,
-          size.height * 0.42)
+          size.width * 0.75, size.height * 0.50, size.width, size.height * 0.42)
       ..lineTo(size.width, 0)
       ..lineTo(0, 0)
       ..close();

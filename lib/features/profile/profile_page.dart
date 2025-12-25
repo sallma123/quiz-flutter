@@ -10,24 +10,29 @@ import 'profile_widgets.dart';
 import 'profile_sheets.dart';
 import 'profile_utils.dart';
 
+/// Page Profil
+/// Affiche les informations utilisateur, statistiques, niveau et succès
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
+    // Box Hive contenant l'historique des quiz
     final historyBox = Hive.box<HistoryRecord>('history');
 
     return Scaffold(
       backgroundColor: colors.background,
+
+      // Écoute les changements de l'utilisateur
       body: ValueListenableBuilder<Box<User>>(
         valueListenable: Hive.box<User>('users').listenable(),
         builder: (context, userBox, _) {
-          // =====================
-          // USER (always exists)
-          // =====================
+
+          // Création d’un utilisateur par défaut si aucun n’existe
           if (userBox.values.isEmpty) {
             userBox.add(
               User(
@@ -39,25 +44,25 @@ class ProfilePage extends ConsumerWidget {
             );
           }
 
+          // Récupération de l'utilisateur courant
           final user = userBox.values.first;
+
+          // Récupération de l'historique des quiz
           final history = historyBox.values.toList();
 
-          // =====================
-          // STATS
-          // =====================
+          // Calcul des statistiques globales
           final totalQuiz = history.length;
           final totalScore =
           history.fold<int>(0, (sum, h) => sum + h.score);
           final totalQuestions =
           history.fold<int>(0, (sum, h) => sum + h.totalQuestions);
 
+          // Calcul du pourcentage global de réussite
           final percent = totalQuestions == 0
               ? 0
               : ((totalScore / (totalQuestions * 10)) * 100).round();
 
-          // =====================
-          // LEVEL
-          // =====================
+          // Détermination du niveau utilisateur selon le score
           int level = 1;
           if (totalScore >= 700) {
             level = 4;
@@ -67,7 +72,10 @@ class ProfilePage extends ConsumerWidget {
             level = 2;
           }
 
+          // Paliers de score pour chaque niveau
           final levelSteps = [0, 100, 300, 700, 1200];
+
+          // Progression dans le niveau actuel
           final progress = level == 4
               ? 1.0
               : (totalScore - levelSteps[level - 1]) /
@@ -77,9 +85,8 @@ class ProfilePage extends ConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // =====================
-                  // HEADER
-                  // =====================
+
+                  // En-tête du profil (infos utilisateur + actions)
                   ProfileHeader(
                     user: user,
                     onEditProfile: () =>
@@ -92,9 +99,7 @@ class ProfilePage extends ConsumerWidget {
 
                   const SizedBox(height: 16),
 
-                  // =====================
-                  // STATS
-                  // =====================
+                  // Cartes de statistiques principales
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
@@ -120,9 +125,7 @@ class ProfilePage extends ConsumerWidget {
 
                   const SizedBox(height: 12),
 
-                  // =====================
-                  // LEVEL
-                  // =====================
+                  // Section du niveau et de la progression
                   ProfileSectionCard(
                     title: "Niveau $level",
                     child: Column(
@@ -145,9 +148,7 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
 
-                  // =====================
-                  // SUCCÈS / BADGES (CORRIGÉ)
-                  // =====================
+                  // Section des succès et badges
                   ProfileSectionCard(
                     title: "Succès",
                     child: Row(
@@ -192,9 +193,7 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
 
-                  // =====================
-                  // ANALYSE PERSONNELLE
-                  // =====================
+                  // Section d’analyse personnalisée
                   ProfileSectionCard(
                     title: "Analyse personnelle",
                     child: Column(

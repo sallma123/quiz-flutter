@@ -1,20 +1,28 @@
 import 'package:hive/hive.dart';
 part 'question.g.dart';
 
+/// Modèle Question
+/// Représente une question de quiz stockée localement avec Hive
 @HiveType(typeId: 1)
 class Question extends HiveObject {
+
+  // Identifiant unique de la question
   @HiveField(0)
   String id;
 
+  // Identifiant de la catégorie (ex : gen, sport, myth, etc.)
   @HiveField(1)
-  String categoryId; // ex: 'gen','sport','myth',...
+  String categoryId;
 
+  // Texte de la question
   @HiveField(2)
   String text;
 
+  // Liste des réponses possibles
   @HiveField(3)
   List<String> options;
 
+  // Index de la bonne réponse dans la liste options
   @HiveField(4)
   int correctIndex;
 

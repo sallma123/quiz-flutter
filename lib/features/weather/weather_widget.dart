@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'weather_provider.dart';
 
+/// Widget météo
+/// Affiche la météo actuelle d’une ville en utilisant Riverpod
 class WeatherWidget extends ConsumerWidget {
   const WeatherWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    // Récupération de la météo de la ville de Rabat
     final weatherAsync = ref.watch(weatherProvider('Rabat'));
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
     return weatherAsync.when(
+
+      // Affichage pendant le chargement des données
       loading: () => const Center(
         child: Padding(
           padding: EdgeInsets.all(12),
@@ -19,6 +26,7 @@ class WeatherWidget extends ConsumerWidget {
         ),
       ),
 
+      // Affichage en cas d’erreur (problème réseau ou API)
       error: (err, _) => Card(
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -42,6 +50,7 @@ class WeatherWidget extends ConsumerWidget {
         ),
       ),
 
+      // Affichage des données météo lorsque la requête réussit
       data: (weather) => Card(
         elevation: 3,
         shape: RoundedRectangleBorder(
@@ -51,7 +60,8 @@ class WeatherWidget extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // 🌦️ ICÔNE
+
+              // Icône représentant la météo
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -67,7 +77,7 @@ class WeatherWidget extends ConsumerWidget {
 
               const SizedBox(width: 16),
 
-              // 📍 VILLE + DESCRIPTION
+              // Informations de la ville et description du temps
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +99,7 @@ class WeatherWidget extends ConsumerWidget {
                 ),
               ),
 
-              // 🌡️ TEMPÉRATURE
+              // Température actuelle
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

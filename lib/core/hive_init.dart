@@ -5,45 +5,35 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/question.dart';
 import '../models/history_record.dart';
 
+/// Initialise Hive et charge les données de base (questions et historique)
 Future<void> initHiveAndSeed() async {
-  // =========================
-  // INITIALISATION HIVE
-  // =========================
+
+  // Initialisation de Hive pour Flutter
   await Hive.initFlutter();
 
-  // =========================
-  // ENREGISTREMENT ADAPTERS
-  // =========================
+  // Enregistrement de l'adapter Question si non enregistré
   if (!Hive.isAdapterRegistered(1)) {
     Hive.registerAdapter(QuestionAdapter());
   }
+
+  // Enregistrement de l'adapter HistoryRecord si non enregistré
   if (!Hive.isAdapterRegistered(2)) {
     Hive.registerAdapter(HistoryRecordAdapter());
   }
 
-  // =========================
-  // RESET TEMPORAIRE (DEV ONLY)
-  // =========================
-  // ⚠️ À décommenter UNE SEULE FOIS
- await Hive.deleteBoxFromDisk('questions');
-
-  // =========================
-  // OUVERTURE DES BOXES
-  // =========================
+  // Ouverture de la box des questions
   final questionBox = await Hive.openBox<Question>('questions');
+
+  // Ouverture de la box de l'historique
   await Hive.openBox<HistoryRecord>('history');
 
-  // =========================
-  // ÉVITER DOUBLE SEED
-  // =========================
+  // Vérifie si les questions sont déjà chargées pour éviter un double chargement
   if (questionBox.isNotEmpty) {
     print("Questions déjà chargées ✔️");
     return;
   }
 
-  // =========================
-  // CHARGEMENT DES CATÉGORIES
-  // =========================
+  // Chargement des questions par catégorie
   await _loadCategory(questionBox, 'gen');
   await _loadCategory(questionBox, 'science');
   await _loadCategory(questionBox, 'sport');
@@ -51,19 +41,25 @@ Future<void> initHiveAndSeed() async {
   await _loadCategory(questionBox, 'geo');
   await _loadCategory(questionBox, 'his');
 
-  print("Toutes les questions importées ✔️");
+  print("Toutes les questions importées");
 }
 
-// =========================
-// CHARGEMENT JSON → HIVE
-// =========================
+/// Charge les questions d'une catégorie depuis un fichier JSON vers Hive
 Future<void> _loadCategory(Box<Question> box, String category) async {
+
+  // Chemin du fichier JSON de la catégorie
   final String path = 'assets/questions/$category.json';
 
+  // Lecture du fichier JSON depuis les assets
   final String jsonString = await rootBundle.loadString(path);
+
+  // Décodage du contenu JSON
   final List<dynamic> data = jsonDecode(jsonString);
 
+  // Parcours de toutes les questions
   for (final q in data) {
+
+    // Création de l'objet Question
     final question = Question(
       id: q['id'] as String,
       categoryId: q['categoryId'] as String,
@@ -72,6 +68,7 @@ Future<void> _loadCategory(Box<Question> box, String category) async {
       correctIndex: q['correctIndex'] as int,
     );
 
+    // Enregistrement de la question dans Hive
     await box.put(question.id, question);
   }
 }

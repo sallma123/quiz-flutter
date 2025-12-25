@@ -5,9 +5,7 @@ import '../../models/user.dart';
 import '../auth/auth_controller.dart';
 import 'profile_utils.dart';
 
-/// =====================
-/// LOGOUT DIALOG
-/// =====================
+/// Affiche une boîte de dialogue de confirmation de déconnexion
 void showLogoutDialog(BuildContext context, WidgetRef ref) {
   showDialog(
     context: context,
@@ -31,10 +29,10 @@ void showLogoutDialog(BuildContext context, WidgetRef ref) {
   );
 }
 
-/// =====================
-/// EDIT PROFILE SHEET
-/// =====================
+/// Affiche une feuille modale pour modifier les informations du profil
 void showEditProfileSheet(BuildContext context, User user) {
+
+  // Contrôleurs des champs nom et email
   final nameCtrl = TextEditingController(text: user.name);
   final emailCtrl = TextEditingController(text: user.email);
 
@@ -65,7 +63,10 @@ void showEditProfileSheet(BuildContext context, User user) {
             child: ListView(
               controller: scrollController,
               children: [
+
+                // Poignée visuelle de la feuille
                 _sheetHandle(),
+
                 const Text(
                   "Modifier le profil",
                   textAlign: TextAlign.center,
@@ -74,8 +75,10 @@ void showEditProfileSheet(BuildContext context, User user) {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 24),
 
+                // Champ nom
                 TextField(
                   controller: nameCtrl,
                   decoration: const InputDecoration(
@@ -86,6 +89,7 @@ void showEditProfileSheet(BuildContext context, User user) {
 
                 const SizedBox(height: 16),
 
+                // Champ email
                 TextField(
                   controller: emailCtrl,
                   decoration: const InputDecoration(
@@ -96,6 +100,7 @@ void showEditProfileSheet(BuildContext context, User user) {
 
                 const SizedBox(height: 30),
 
+                // Bouton de sauvegarde
                 ElevatedButton(
                   onPressed: () {
                     user.name = nameCtrl.text.trim();
@@ -114,14 +119,15 @@ void showEditProfileSheet(BuildContext context, User user) {
   );
 }
 
-/// =====================
-/// CHANGE PASSWORD SHEET
-/// =====================
+/// Affiche une feuille modale pour changer le mot de passe
 void showChangePasswordSheet(BuildContext context, User user) {
+
+  // Contrôleurs des champs mot de passe
   final oldCtrl = TextEditingController();
   final newCtrl = TextEditingController();
   final confirmCtrl = TextEditingController();
 
+  // États pour afficher ou masquer les mots de passe
   bool showOld = false;
   bool showNew = false;
   bool showConfirm = false;
@@ -156,7 +162,10 @@ void showChangePasswordSheet(BuildContext context, User user) {
                 child: ListView(
                   controller: scrollController,
                   children: [
+
+                    // Poignée visuelle
                     _sheetHandle(),
+
                     const Text(
                       "Changer le mot de passe",
                       textAlign: TextAlign.center,
@@ -165,8 +174,10 @@ void showChangePasswordSheet(BuildContext context, User user) {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     const SizedBox(height: 24),
 
+                    // Champ ancien mot de passe
                     _passwordField(
                       controller: oldCtrl,
                       label: "Ancien mot de passe",
@@ -177,6 +188,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
 
                     const SizedBox(height: 16),
 
+                    // Champ nouveau mot de passe
                     _passwordField(
                       controller: newCtrl,
                       label: "Nouveau mot de passe",
@@ -187,6 +199,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
 
                     const SizedBox(height: 16),
 
+                    // Champ confirmation du mot de passe
                     _passwordField(
                       controller: confirmCtrl,
                       label: "Confirmer le mot de passe",
@@ -197,8 +210,11 @@ void showChangePasswordSheet(BuildContext context, User user) {
 
                     const SizedBox(height: 30),
 
+                    // Bouton de mise à jour du mot de passe
                     ElevatedButton(
                       onPressed: () {
+
+                        // Vérification de l'ancien mot de passe
                         final oldHashed =
                         hashPassword(oldCtrl.text, user.id);
 
@@ -210,6 +226,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
                           return;
                         }
 
+                        // Vérification de la longueur du nouveau mot de passe
                         if (newCtrl.text.length < 6) {
                           showProfileSnack(
                             context,
@@ -218,6 +235,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
                           return;
                         }
 
+                        // Vérification de la confirmation
                         if (newCtrl.text != confirmCtrl.text) {
                           showProfileSnack(
                             context,
@@ -226,6 +244,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
                           return;
                         }
 
+                        // Mise à jour du mot de passe
                         user.passwordHash =
                             hashPassword(newCtrl.text, user.id);
                         user.save();
@@ -249,9 +268,7 @@ void showChangePasswordSheet(BuildContext context, User user) {
   );
 }
 
-/// =====================
-/// SHEET HANDLE
-/// =====================
+/// Widget visuel indiquant que la feuille peut être glissée
 Widget _sheetHandle() {
   return Center(
     child: Container(
@@ -266,9 +283,7 @@ Widget _sheetHandle() {
   );
 }
 
-/// =====================
-/// PASSWORD FIELD
-/// =====================
+/// Champ de saisie de mot de passe avec option afficher / masquer
 Widget _passwordField({
   required TextEditingController controller,
   required String label,

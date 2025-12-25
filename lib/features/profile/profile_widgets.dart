@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
 
-/// =====================
-/// PROFILE HEADER
-/// =====================
+/// En-tête du profil
+/// Affiche l’avatar, le nom, l’email et les actions principales
 class ProfileHeader extends StatelessWidget {
   final User user;
   final VoidCallback onEditProfile;
@@ -35,6 +34,7 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Avatar avec la première lettre du nom
           CircleAvatar(
             radius: 44,
             backgroundColor: Colors.white,
@@ -48,17 +48,23 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
+
+          // Nom de l'utilisateur
           Text(
             user.name,
             style: theme.textTheme.titleLarge?.copyWith(color: Colors.white),
           ),
           const SizedBox(height: 4),
+
+          // Email de l'utilisateur
           Text(
             user.email,
-            style:
-            theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
+            style: theme.textTheme.bodyMedium
+                ?.copyWith(color: Colors.white70),
           ),
           const SizedBox(height: 16),
+
+          // Boutons d’actions rapides
           Wrap(
             spacing: 20,
             children: [
@@ -85,9 +91,7 @@ class ProfileHeader extends StatelessWidget {
   }
 }
 
-/// =====================
-/// HEADER ACTION BUTTON
-/// =====================
+/// Bouton d’action dans l’en-tête du profil
 class ProfileHeaderAction extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -122,9 +126,7 @@ class ProfileHeaderAction extends StatelessWidget {
   }
 }
 
-/// =====================
-/// STAT CARD
-/// =====================
+/// Carte affichant une statistique du profil
 class ProfileStatCard extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -153,8 +155,10 @@ class ProfileStatCard extends StatelessWidget {
           children: [
             Icon(icon, color: colors.secondary),
             const SizedBox(height: 6),
-            Text(value,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              value,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
             Text(label, style: const TextStyle(fontSize: 12)),
           ],
         ),
@@ -163,9 +167,7 @@ class ProfileStatCard extends StatelessWidget {
   }
 }
 
-/// =====================
-/// SECTION CARD
-/// =====================
+/// Carte de section utilisée dans la page Profil
 class ProfileSectionCard extends StatelessWidget {
   final String title;
   final Widget child;
@@ -191,8 +193,10 @@ class ProfileSectionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 10),
             child,
           ],
@@ -202,6 +206,7 @@ class ProfileSectionCard extends StatelessWidget {
   }
 }
 
+/// Badge animé représentant un succès
 class AnimatedBadge extends StatefulWidget {
   final IconData icon;
   final bool active;
@@ -222,6 +227,7 @@ class AnimatedBadge extends StatefulWidget {
 
 class _AnimatedBadgeState extends State<AnimatedBadge>
     with SingleTickerProviderStateMixin {
+
   late final AnimationController _controller;
   late final Animation<double> _scale;
 
@@ -229,20 +235,22 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
   void initState() {
     super.initState();
 
+    // Contrôleur d’animation du badge
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
 
+    // Animation de zoom
     _scale = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutBack,
     );
 
-    // ✅ Toujours visible
+    // Badge visible par défaut
     _controller.value = 1.0;
 
-    // ✨ Petite animation seulement si actif
+    // Animation uniquement si le succès est actif
     if (widget.active) {
       _controller.forward(from: 0.85);
     }
@@ -254,17 +262,18 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
     super.dispose();
   }
 
+  /// Affiche une explication détaillée du badge
   void _showExplanation(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     showModalBottomSheet(
       context: context,
-      useSafeArea: true, // ✅ Flutter 3.10+
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (_) => SafeArea(
-        top: false, // ❌ on garde le haut arrondi
+        top: false,
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -283,11 +292,9 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
               Text(
                 widget.description,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(
-                  color: colors.onSurface.withValues(alpha: 0.7),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color:
+                  colors.onSurface.withValues(alpha: 0.7),
                 ),
               ),
               const SizedBox(height: 12),
@@ -296,13 +303,13 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
         ),
       ),
     );
-
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
+    // Couleur du badge selon son état
     final badgeColor = widget.active
         ? colors.primary
         : colors.onSurface.withValues(alpha: 0.35);
@@ -330,10 +337,7 @@ class _AnimatedBadgeState extends State<AnimatedBadge>
   }
 }
 
-
-/// =====================
-/// INSIGHT CARD
-/// =====================
+/// Carte d’analyse personnalisée du profil
 class ProfileInsightCard extends StatelessWidget {
   final IconData icon;
   final Color color;
@@ -369,11 +373,18 @@ class ProfileInsightCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, color: color)),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(message, style: const TextStyle(fontSize: 13)),
+                Text(
+                  message,
+                  style: const TextStyle(fontSize: 13),
+                ),
               ],
             ),
           ),
@@ -382,5 +393,3 @@ class ProfileInsightCard extends StatelessWidget {
     );
   }
 }
-
-

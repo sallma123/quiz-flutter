@@ -5,6 +5,8 @@ import '../../core/constants.dart';
 import '../../models/user.dart';
 import '../weather/weather_widget.dart';
 
+/// Page d'accueil de l'application
+/// Affiche les catégories de quiz et permet la navigation vers un quiz
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -13,8 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  // Texte de recherche saisi par l'utilisateur
   String query = '';
 
+  // Liste statique des catégories de quiz
   static const List<Map<String, dynamic>> categories = [
     {'id': 'gen', 'title': 'Culture générale', 'icon': Icons.psychology},
     {'id': 'science', 'title': 'Science', 'icon': Icons.science},
@@ -26,14 +31,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Récupération du thème et des couleurs
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
-    // ✅ RÉCUPÉRATION UTILISATEUR
+    // Récupération de l'utilisateur depuis Hive
     final userBox = Hive.box<User>('users');
     final String userName =
     userBox.isNotEmpty ? userBox.values.first.name : 'Utilisateur';
 
+    // Filtrage des catégories selon la recherche
     final filtered = categories
         .where((c) =>
         c['title'].toLowerCase().contains(query.toLowerCase()))
@@ -42,9 +50,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: colors.background,
 
-      // ✅ HEADER MODERNE
       body: Column(
         children: [
+
+          // En-tête supérieur avec message de bienvenue
           Container(
             padding: const EdgeInsets.fromLTRB(16, 60, 16, 24),
             width: double.infinity,
@@ -58,7 +67,8 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 👋 BONJOUR + NOM
+
+                // Message de bienvenue avec le nom de l'utilisateur
                 Text(
                   "Bonjour $userName 👋",
                   style: theme.textTheme.bodyLarge?.copyWith(
@@ -66,7 +76,10 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+
                 const SizedBox(height: 6),
+
+                // Titre principal
                 Text(
                   "Testez vos connaissances",
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -74,9 +87,10 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 16),
 
-                // 🔍 SEARCH
+                // Champ de recherche des catégories
                 TextField(
                   onChanged: (v) => setState(() => query = v),
                   decoration: InputDecoration(
@@ -97,6 +111,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
+          // Élément décoratif sous l'en-tête
           Container(
             height: 4,
             width: 60,
@@ -107,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // 🌦️ MÉTÉO DISCRÈTE
+          // Widget météo affiché de manière discrète
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: WeatherWidget(),
@@ -115,17 +130,20 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(height: 2),
 
-          // 📚 LISTE MODERNE
+          // Liste des catégories de quiz
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: filtered.length,
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
+
                 final cat = filtered[index];
 
                 return InkWell(
                   borderRadius: BorderRadius.circular(16),
+
+                  // Navigation vers la page du quiz sélectionné
                   onTap: () {
                     context.go(
                       AppRoutes.quiz,
@@ -147,7 +165,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Row(
                       children: [
-                        // ICON
+
+                        // Icône de la catégorie
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
@@ -163,7 +182,7 @@ class _HomePageState extends State<HomePage> {
 
                         const SizedBox(width: 14),
 
-                        // TITLE
+                        // Titre de la catégorie
                         Expanded(
                           child: Text(
                             cat['title'],
@@ -173,6 +192,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
 
+                        // Icône de navigation
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 16,
@@ -186,14 +206,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-
-
-      // ➕ FAB discret
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go(AppRoutes.createQuiz),
-        backgroundColor: colors.primary,
-        child: const Icon(Icons.add),
       ),
     );
   }

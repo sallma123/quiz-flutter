@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants.dart';
 import 'auth_controller.dart';
 
+/// Page de connexion de l'application
+/// Utilise Riverpod pour la gestion de l'état d'authentification
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -13,10 +15,17 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+
+  // Clé du formulaire pour la validation des champs
   final _formKey = GlobalKey<FormState>();
+
+  // Contrôleur du champ email
   final _emailCtrl = TextEditingController();
+
+  // Contrôleur du champ mot de passe
   final _pwdCtrl = TextEditingController();
 
+  /// Libération de la mémoire quand le widget est détruit
   @override
   void dispose() {
     _emailCtrl.dispose();
@@ -24,21 +33,34 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
+  /// Méthode appelée lors du clic sur "Se connecter"
+  /// Gère la validation et l'authentification
   void _submit() async {
+
+    // Vérifie si le formulaire est valide
     if (!_formKey.currentState!.validate()) return;
 
+    // Récupère le contrôleur d'authentification
     final notifier = ref.read(authControllerProvider.notifier);
+
+    // Appel de la méthode login
     await notifier.login(
       email: _emailCtrl.text.trim(),
       password: _pwdCtrl.text,
     );
 
+    // Lecture de l'état après la tentative de connexion
     final state = ref.read(authControllerProvider);
+
+    // Vérifie que le widget est encore monté
     if (!mounted) return;
 
+    // Si authentification réussie → redirection vers la page principale
     if (state.status == AuthStatus.authenticated) {
       context.go(AppRoutes.main);
-    } else if (state.status == AuthStatus.error) {
+    }
+    // En cas d'erreur → message d'erreur
+    else if (state.status == AuthStatus.error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(state.errorMessage ?? 'Erreur')),
       );
@@ -47,13 +69,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // État global de l'authentification
     final authState = ref.watch(authControllerProvider);
+
+    // Couleurs du thème
     final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Stack(
         children: [
-          // 🌥️ BACKGROUND NUAGEUX
+
+          // Arrière-plan personnalisé avec effet nuage
           Positioned.fill(
             child: CustomPaint(
               painter: CloudBackgroundPainter(),
@@ -67,9 +94,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
                     const SizedBox(height: 36),
 
-                    // 🧠 LOGO
+                    // Logo de l'application
                     Image.asset(
                       'assets/logoo.png',
                       height: 130,
@@ -77,7 +105,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                     const SizedBox(height: 12),
 
-                    // ➖ PETIT TIRET ÉLÉGANT
+                    // Petit élément décoratif
                     Container(
                       width: 48,
                       height: 4,
@@ -89,7 +117,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                     const SizedBox(height: 16),
 
-                    // 📝 TEXTE DISCRET ALIGNÉ À GAUCHE
+                    // Texte d'accueil
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -103,7 +131,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                     const SizedBox(height: 28),
 
-                    // 📦 CARD FORMULAIRE
+                    // Carte contenant le formulaire de connexion
                     Container(
                       padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
@@ -121,6 +149,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         key: _formKey,
                         child: Column(
                           children: [
+
+                            // Champ Email
                             _buildField(
                               controller: _emailCtrl,
                               label: 'Email',
@@ -128,7 +158,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               icon: Icons.email_outlined,
                               keyboardType: TextInputType.emailAddress,
                             ),
+
                             const SizedBox(height: 16),
+
+                            // Champ Mot de passe
                             _buildField(
                               controller: _pwdCtrl,
                               label: 'Mot de passe',
@@ -136,9 +169,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               icon: Icons.lock_outline,
                               obscure: true,
                             ),
+
                             const SizedBox(height: 28),
 
-                            // 🔵 BOUTON PREMIUM
+                            // Bouton de connexion
                             SizedBox(
                               width: double.infinity,
                               height: 54,
@@ -160,12 +194,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),
-                                  onPressed: authState.status ==
-                                      AuthStatus.loading
+
+                                  // Désactive le bouton pendant le chargement
+                                  onPressed: authState.status == AuthStatus.loading
                                       ? null
                                       : _submit,
-                                  child: authState.status ==
-                                      AuthStatus.loading
+
+                                  // Affiche un loader pendant la connexion
+                                  child: authState.status == AuthStatus.loading
                                       ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
@@ -186,7 +222,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                     const SizedBox(height: 22),
 
-                    // 🔗 SIGN UP
+                    // Lien vers la page d'inscription
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -215,6 +251,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
+  /// Champ de formulaire réutilisable (email / mot de passe)
   Widget _buildField({
     required TextEditingController controller,
     required String label,
@@ -227,6 +264,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       controller: controller,
       obscureText: obscure,
       keyboardType: keyboardType,
+
+      // Validation simple du champ
       validator: (v) {
         if (v == null || v.trim().isEmpty) return 'Champ requis';
         if (keyboardType == TextInputType.emailAddress && !v.contains('@')) {
@@ -234,6 +273,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         }
         return null;
       },
+
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
@@ -252,10 +292,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
-/// 🌥️ PAINTER DES NUAGES (MULTI-COUCHES)
+/// Painter personnalisé pour dessiner un fond nuageux
 class CloudBackgroundPainter extends CustomPainter {
+
   @override
   void paint(Canvas canvas, Size size) {
+
+    // Dégradé de fond
     final bgPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
@@ -271,6 +314,7 @@ class CloudBackgroundPainter extends CustomPainter {
       bgPaint,
     );
 
+    // Nuage arrière (léger)
     final backCloud = Paint()..color = Colors.white.withOpacity(0.35);
     final pathBack = Path()
       ..moveTo(0, size.height * 0.28)
@@ -283,6 +327,7 @@ class CloudBackgroundPainter extends CustomPainter {
       ..close();
     canvas.drawPath(pathBack, backCloud);
 
+    // Nuage avant (plus visible)
     final frontCloud = Paint()..color = Colors.white.withOpacity(0.7);
     final pathFront = Path()
       ..moveTo(0, size.height * 0.42)
